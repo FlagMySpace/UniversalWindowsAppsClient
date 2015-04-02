@@ -1,5 +1,7 @@
 ﻿using Windows.UI.Xaml.Navigation;
 using SSWindows.Controls;
+using SSWindows.Interfaces;
+using SSWindows.ViewModels;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -10,11 +12,14 @@ namespace SSWindows.Views
     /// </summary>
     public sealed partial class MainPage : PageBase
     {
+        private IMainPageViewModel _viewModel;
         public MainPage()
         {
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
+
+            _viewModel = DataContext as IMainPageViewModel;
         }
 
         /// <summary>
@@ -31,6 +36,16 @@ namespace SSWindows.Views
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+        }
+
+        private void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            _viewModel.ValidateLogin();
+        }
+
+        private void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            _viewModel.ValidateRegister();
         }
     }
 }

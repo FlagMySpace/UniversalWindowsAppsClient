@@ -18,20 +18,20 @@
     <Pivot Title="PLEASE LOGIN TO CONTINUE">
         <PivotItem Header="login">
             <StackPanel>
-                <TextBox PlaceholderText="username" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <PasswordBox PlaceholderText="password" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
-                <Button Content="login" HorizontalAlignment="Stretch"></Button>
-                <HyperlinkButton Content="forgot your password? tap here!" FontSize="{StaticResource TextStyleMediumFontSize}"/>
+                <TextBox x:Name="TextBoxUsername" PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <PasswordBox x:Name="PasswordBox" PlaceholderText="password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+                <Button x:Name="ButtonLogin" Content="login" HorizontalAlignment="Stretch" Tapped="ButtonLogin_Tapped"></Button>
+                <HyperlinkButton x:Name="HyperlinkButtonForgot" Content="forgot your password? tap here!" FontSize="{StaticResource TextStyleMediumFontSize}"/>
             </StackPanel>
         </PivotItem>
         <PivotItem Header="register">
             <StackPanel>
-                <TextBox PlaceholderText="username" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
-                <PasswordBox PlaceholderText="password" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
-                <PasswordBox PlaceholderText="confirm password" Password="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
-                <TextBox PlaceholderText="email" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBox x:Name="TextBoxUsernameReg" PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <PasswordBox x:Name="PasswordBoxReg" PlaceholderText="password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+                <PasswordBox x:Name="PasswordBoxConfirmReg" PlaceholderText="confirm password" Password="{Binding Person.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+                <TextBox x:Name="TextBoxEmailReg" PlaceholderText="email" Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 <TextBlock Text="by tapping register you agree with our terms &amp; conditions and you are at least 13 years old" TextWrapping="WrapWholeWords" FontSize="{StaticResource TextStyleMediumFontSize}"/>
-                <Button Content="register" HorizontalAlignment="Stretch"></Button>
+                <Button x:Name="ButtonRegister" Content="register" HorizontalAlignment="Stretch" Tapped="ButtonRegister_Tapped"></Button>
                 </StackPanel>
         </PivotItem>
     </Pivot>

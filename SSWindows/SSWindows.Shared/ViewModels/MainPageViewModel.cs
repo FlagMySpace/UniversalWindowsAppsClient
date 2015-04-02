@@ -2,62 +2,47 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Unity;
 using SSWindows.Events;
 using SSWindows.Interfaces;
+using SSWindows.Models;
 
 namespace SSWindows.ViewModels
 {
     public class MainPageViewModel : ViewModel, IMainPageViewModel
     {
-        private string _mUsername = default(string);
-        public string Username
+        public MainPageViewModel()
         {
-            get { return _mUsername; }
+            Person = new Person();
+        }
+
+        private Person _mPerson = default(Person);
+        public Person Person
+        {
+            get { return _mPerson; }
             set
             {
-                _mUsername = value;
-                SetProperty(ref _mUsername, value);
+                _mPerson = value;
+                SetProperty(ref _mPerson, value);
             }
         }
 
-        private string _mPassword = default(string);
-        public string Password
+        public async void ValidateLogin()
         {
-            get { return _mPassword; }
-            set
-            {
-                _mPassword = value;
-                SetProperty(ref _mPassword, value);
-            }
+            
         }
 
-
-        private string _mConfirmPassword = default(string);
-        public string ConfirmPassword
+        public async void ValidateRegister()
         {
-            get { return _mConfirmPassword; }
-            set
-            {
-                _mConfirmPassword = value;
-                SetProperty(ref _mConfirmPassword, value);
-            }
+            var errors = Person.ValidateRegister();
+
+            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Error!") : new MessageDialog("registration success", "Success");
+
+            await dialog.ShowAsync();
         }
-
-
-        private string _mEmail = default(string);
-        public string Email
-        {
-            get { return _mEmail; }
-            set
-            {
-                _mEmail = value;
-                SetProperty(ref _mEmail, value);
-            }
-        }
-
     }
 }

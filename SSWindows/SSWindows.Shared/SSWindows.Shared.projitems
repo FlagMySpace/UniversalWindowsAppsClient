@@ -20,6 +20,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Events\Logout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDialogServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IMainPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Person.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MainPageViewModel.cs" />
   </ItemGroup>
