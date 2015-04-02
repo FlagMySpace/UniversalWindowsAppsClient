@@ -1,0 +1,39 @@
+﻿<controls:PageBase
+    xmlns:controls="using:SSWindows.Controls"
+    x:Class="SSWindows.Views.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:designTime="using:SSWindows.DesignTime"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:local="using:SSWindows"
+    mc:Ignorable="d">
+
+    <d:Page.DataContext>
+        <designTime:MainPageViewModel />
+    </d:Page.DataContext>
+
+    <Pivot Title="PLEASE LOGIN TO CONTINUE">
+        <PivotItem Header="login">
+            <StackPanel>
+                <TextBox PlaceholderText="username" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <PasswordBox PlaceholderText="password" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+                <Button Content="login" HorizontalAlignment="Stretch"></Button>
+                <HyperlinkButton Content="forgot your password? tap here!" FontSize="{StaticResource TextStyleMediumFontSize}"/>
+            </StackPanel>
+        </PivotItem>
+        <PivotItem Header="register">
+            <StackPanel>
+                <TextBox PlaceholderText="username" Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <PasswordBox PlaceholderText="password" Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+                <PasswordBox PlaceholderText="confirm password" Password="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>
+                <TextBox PlaceholderText="email" Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                <TextBlock Text="by tapping register you agree with our terms &amp; conditions and you are at least 13 years old" TextWrapping="WrapWholeWords" FontSize="{StaticResource TextStyleMediumFontSize}"/>
+                <Button Content="register" HorizontalAlignment="Stretch"></Button>
+                </StackPanel>
+        </PivotItem>
+    </Pivot>
+
+</controls:PageBase>
