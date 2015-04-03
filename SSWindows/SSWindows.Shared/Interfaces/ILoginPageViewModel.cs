@@ -7,7 +7,7 @@ using SSWindows.Models;
 
 namespace SSWindows.Interfaces
 {
-    public interface IMainPageViewModel
+    public interface ILoginPageViewModel
     {
         Person Person { get; set; }
         Task ValidateLogin();

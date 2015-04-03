@@ -41,12 +41,12 @@ namespace SSWindows
 
         public enum Experiences
         {
-            Main
+            Login
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            NavigationService.Navigate(Experiences.Main.ToString(), null);
+            NavigationService.Navigate(Experiences.Login.ToString(), null);
             return Task.FromResult<object>(null);
         }
 

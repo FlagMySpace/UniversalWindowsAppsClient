@@ -14,9 +14,9 @@ using SSWindows.Models;
 
 namespace SSWindows.ViewModels
 {
-    public class MainPageViewModel : ViewModel, IMainPageViewModel
+    public class LoginPageViewModel : ViewModel, ILoginPageViewModel
     {
-        public MainPageViewModel()
+        public LoginPageViewModel()
         {
             Person = new Person();
         }
@@ -34,14 +34,18 @@ namespace SSWindows.ViewModels
 
         public async Task ValidateLogin()
         {
-            
+            var errors = await Person.Login();
+
+            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Registration Failed") : new MessageDialog("login success", "Success");
+
+            await dialog.ShowAsync();
         }
 
         public async Task ValidateRegister()
         {
             var errors = await Person.Register();
 
-            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Error!") : new MessageDialog("registration success", "Success");
+            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Login Failed") : new MessageDialog("registration success", "Success");
 
             await dialog.ShowAsync();
         }

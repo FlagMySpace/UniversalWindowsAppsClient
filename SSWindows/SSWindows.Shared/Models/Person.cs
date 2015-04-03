@@ -33,7 +33,7 @@ namespace SSWindows.Models
             }
         }
 
-        private void ValidatePassword()
+        private void ValidatePassword(bool confirm = false)
         {
             if (Password == null)
             {
@@ -44,7 +44,7 @@ namespace SSWindows.Models
             {
                 _strBuilder.Append("- password at least 8 characters\n");
             }
-            if (!Password.Equals(ConfirmPassword))
+            if (confirm && !Password.Equals(ConfirmPassword))
             {
                 _strBuilder.Append("- passwords mismatch\n");
             }
@@ -64,8 +64,9 @@ namespace SSWindows.Models
 
         public async Task<string> Register()
         {
+            _strBuilder.Clear();
             ValidateUsername();
-            ValidatePassword();
+            ValidatePassword(true);
             ValidateEmail();
             var error = _strBuilder.ToString();
             _strBuilder.Clear();
@@ -86,6 +87,29 @@ namespace SSWindows.Models
                 catch (Exception ex)
                 {
                     error = ex.Message;
+                }
+            }
+
+            return error;
+        }
+
+        public async Task<string> Login()
+        {
+            _strBuilder.Clear();
+            ValidateUsername();
+            ValidatePassword();
+            var error = _strBuilder.ToString();
+            _strBuilder.Clear();
+
+            if (!error.Any())
+            {
+                try
+                {
+                    await ParseUser.LogInAsync(Username, Password);
+                }
+                catch (Exception e)
+                {
+                    error = e.Message;
                 }
             }
 

@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <d:Page.DataContext>
-        <designTime:MainPageViewModel />
+        <designTime:LoginPageViewModel />
     </d:Page.DataContext>
     
     <Hub Header="{Binding Title}"></Hub>

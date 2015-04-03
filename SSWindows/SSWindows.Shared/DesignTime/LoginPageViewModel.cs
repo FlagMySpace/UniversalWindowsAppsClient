@@ -7,7 +7,7 @@ using SSWindows.Models;
 
 namespace SSWindows.DesignTime
 {
-    public class MainPageViewModel : IMainPageViewModel
+    public class LoginPageViewModel : ILoginPageViewModel
     {
         public Person Person { get; set; }
         public Task ValidateLogin()

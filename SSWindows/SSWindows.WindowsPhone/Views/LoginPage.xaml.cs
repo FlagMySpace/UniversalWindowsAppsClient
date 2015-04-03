@@ -10,16 +10,16 @@ namespace SSWindows.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : PageBase
+    public sealed partial class LoginPage : PageBase
     {
-        private IMainPageViewModel _viewModel;
-        public MainPage()
+        private ILoginPageViewModel _viewModel;
+        public LoginPage()
         {
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
-            _viewModel = DataContext as IMainPageViewModel;
+            _viewModel = DataContext as ILoginPageViewModel;
         }
 
         /// <summary>
@@ -38,10 +38,10 @@ namespace SSWindows.Views
             // this event is handled for you.
         }
 
-        private void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ButtonLogin.IsEnabled = false;
-            _viewModel.ValidateLogin();
+            await _viewModel.ValidateLogin();
             ButtonLogin.IsEnabled = true;
         }
 
