@@ -40,12 +40,16 @@ namespace SSWindows.Views
 
         private void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            ButtonLogin.IsEnabled = false;
             _viewModel.ValidateLogin();
+            ButtonLogin.IsEnabled = true;
         }
 
-        private void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            _viewModel.ValidateRegister();
+            ButtonRegister.IsEnabled = false;
+            await _viewModel.ValidateRegister();
+            ButtonRegister.IsEnabled = true;
         }
     }
 }

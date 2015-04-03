@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Windows.Foundation.Diagnostics;
+using Parse;
 
 namespace SSWindows.Models
 {
@@ -19,7 +24,7 @@ namespace SSWindows.Models
         public string ConfirmPassword { get; set; }
         public string Email { get; set; }
 
-        private void ValidateUsername()
+        private async void ValidateUsername()
         {
             if (String.IsNullOrWhiteSpace(Username))
             {
@@ -57,14 +62,34 @@ namespace SSWindows.Models
             if (!match.Success) _strBuilder.Append("- email address is not valid\n");
         }
 
-        public string ValidateRegister()
+        public async Task<string> Register()
         {
             ValidateUsername();
             ValidatePassword();
             ValidateEmail();
-            var result = _strBuilder.ToString();
+            var error = _strBuilder.ToString();
             _strBuilder.Clear();
-            return result;
+
+            if (!error.Any())
+            {
+                var user = new ParseUser()
+                {
+                    Username = Username,
+                    Password = Password,
+                    Email = Email
+                };
+
+                try
+                {
+                    await user.SignUpAsync();
+                }
+                catch (Exception ex)
+                {
+                    error = ex.Message;
+                }
+            }
+
+            return error;
         }
     }
 }

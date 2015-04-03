@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
@@ -31,14 +32,14 @@ namespace SSWindows.ViewModels
             }
         }
 
-        public async void ValidateLogin()
+        public async Task ValidateLogin()
         {
             
         }
 
-        public async void ValidateRegister()
+        public async Task ValidateRegister()
         {
-            var errors = Person.ValidateRegister();
+            var errors = await Person.Register();
 
             var dialog = errors.Length > 0 ? new MessageDialog(errors, "Error!") : new MessageDialog("registration success", "Success");
 
