@@ -40,10 +40,6 @@ namespace SSWindows.Models
                 _strBuilder.Append("- password is empty\n");
                 return;
             }
-            if (Password.Length < 8)
-            {
-                _strBuilder.Append("- password at least 8 characters\n");
-            }
             if (confirm && !Password.Equals(ConfirmPassword))
             {
                 _strBuilder.Append("- passwords mismatch\n");
@@ -71,6 +67,7 @@ namespace SSWindows.Models
             var error = _strBuilder.ToString();
             _strBuilder.Clear();
 
+            // If there is no error in validation, then try to register the user.
             if (!error.Any())
             {
                 var user = new ParseUser()
@@ -100,7 +97,8 @@ namespace SSWindows.Models
             ValidatePassword();
             var error = _strBuilder.ToString();
             _strBuilder.Clear();
-
+            
+            // If there is no error in validation, then try to log in the user.
             if (!error.Any())
             {
                 try

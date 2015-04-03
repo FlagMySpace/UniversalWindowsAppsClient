@@ -16,8 +16,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PageBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DesignTime\ForgotPageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DesignTime\LoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Logout.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IDialogServices.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IForgotPageViewModel.cs" />
@@ -26,5 +24,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Services\DialogService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ForgotPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginPageViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)DesignTime\" />
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
-    xmlns:designTime="using:SSWindows.DesignTime"
+    xmlns:designTime="using:SSWindows.ViewModels"
     prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:controls="using:SSWindows.Controls"
     xmlns:local="using:SSWindows"

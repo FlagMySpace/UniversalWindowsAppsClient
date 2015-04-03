@@ -11,8 +11,8 @@ namespace SSWindows.Interfaces
     public interface ILoginPageViewModel
     {
         Person Person { get; set; }
-        Task ValidateLogin();
-        Task ValidateRegister();
+        Task<string> ValidateLogin();
+        Task<string> ValidateRegister();
         INavigationService NavigationService { get; set; }
     }
 }

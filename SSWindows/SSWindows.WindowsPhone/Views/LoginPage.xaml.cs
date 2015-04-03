@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml.Navigation;
+﻿using System;
+using Windows.UI.Popups;
+using Windows.UI.Xaml.Navigation;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
 using SSWindows.ViewModels;
@@ -41,14 +43,18 @@ namespace SSWindows.Views
         private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ButtonLogin.IsEnabled = false;
-            await _viewModel.ValidateLogin();
+            var errors = await _viewModel.ValidateLogin();
+            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Registration Failed") : new MessageDialog("login success", "Success");
+            await dialog.ShowAsync();
             ButtonLogin.IsEnabled = true;
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ButtonRegister.IsEnabled = false;
-            await _viewModel.ValidateRegister();
+            var errors = await _viewModel.ValidateRegister();
+            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Login Failed") : new MessageDialog("registration success", "Success");
+            await dialog.ShowAsync();
             ButtonRegister.IsEnabled = true;
         }
 

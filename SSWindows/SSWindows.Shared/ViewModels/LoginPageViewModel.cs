@@ -25,6 +25,11 @@ namespace SSWindows.ViewModels
         }
 
         private Person _mPerson = default(Person);
+
+        public LoginPageViewModel()
+        {
+        }
+
         public INavigationService NavigationService { get; set; }
 
         public Person Person
@@ -37,22 +42,14 @@ namespace SSWindows.ViewModels
             }
         }
 
-        public async Task ValidateLogin()
+        public async Task<string> ValidateLogin()
         {
-            var errors = await Person.Login();
-
-            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Registration Failed") : new MessageDialog("login success", "Success");
-
-            await dialog.ShowAsync();
+            return await Person.Login();
         }
 
-        public async Task ValidateRegister()
+        public async Task<string> ValidateRegister()
         {
-            var errors = await Person.Register();
-
-            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Login Failed") : new MessageDialog("registration success", "Success");
-
-            await dialog.ShowAsync();
+            return await Person.Register();
         }
     }
 }
