@@ -41,7 +41,8 @@ namespace SSWindows
 
         public enum Experiences
         {
-            Login
+            Login,
+            Forgot
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)

@@ -19,5 +19,12 @@ namespace SSWindows.DesignTime
         {
             return null;
         }
+
+
+        public Microsoft.Practices.Prism.Mvvm.Interfaces.INavigationService NavigationService
+        {
+            get;
+            set;
+        }
     }
 }

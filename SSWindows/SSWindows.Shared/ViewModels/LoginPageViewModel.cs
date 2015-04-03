@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
+using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Unity;
 using SSWindows.Events;
@@ -16,12 +17,16 @@ namespace SSWindows.ViewModels
 {
     public class LoginPageViewModel : ViewModel, ILoginPageViewModel
     {
-        public LoginPageViewModel()
+        public LoginPageViewModel(INavigationService navigationService)
         {
             Person = new Person();
+
+            NavigationService = navigationService;
         }
 
         private Person _mPerson = default(Person);
+        public INavigationService NavigationService { get; set; }
+
         public Person Person
         {
             get { return _mPerson; }

@@ -51,5 +51,10 @@ namespace SSWindows.Views
             await _viewModel.ValidateRegister();
             ButtonRegister.IsEnabled = true;
         }
+
+        private void HyperlinkButtonForgot_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            _viewModel.NavigationService.Navigate(App.Experiences.Forgot.ToString(), null);
+        }
     }
 }
