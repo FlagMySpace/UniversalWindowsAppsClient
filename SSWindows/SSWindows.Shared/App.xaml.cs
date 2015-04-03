@@ -42,12 +42,21 @@ namespace SSWindows
         public enum Experiences
         {
             Login,
-            Forgot
+            Forgot,
+            Home,
+            Profil
         }
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            NavigationService.Navigate(Experiences.Login.ToString(), null);
+            if (ParseUser.CurrentUser != null && ParseUser.CurrentUser.IsAuthenticated)
+            {
+                NavigationService.Navigate(Experiences.Home.ToString(), null);
+            }
+            else
+            {
+                NavigationService.Navigate(Experiences.Login.ToString(), null);
+            }
             return Task.FromResult<object>(null);
         }
 

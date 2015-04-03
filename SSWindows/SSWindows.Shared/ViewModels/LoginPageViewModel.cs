@@ -42,12 +42,12 @@ namespace SSWindows.ViewModels
             }
         }
 
-        public async Task<string> ValidateLogin()
+        public async Task<string> Login()
         {
             return await Person.Login();
         }
 
-        public async Task<string> ValidateRegister()
+        public async Task<string> Register()
         {
             return await Person.Register();
         }

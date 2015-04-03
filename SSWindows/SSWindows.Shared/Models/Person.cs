@@ -68,6 +68,7 @@ namespace SSWindows.Models
             _strBuilder.Clear();
 
             // If there is no error in validation, then try to register the user.
+            var invalidSession = false;
             if (!error.Any())
             {
                 var user = new ParseUser()
@@ -81,10 +82,24 @@ namespace SSWindows.Models
                 {
                     await user.SignUpAsync();
                 }
-                catch (Exception ex)
+                catch (ParseException e)
                 {
-                    error = ex.Message;
+                    switch (e.Code)
+                    {
+                        case ParseException.ErrorCode.InvalidSessionToken:
+                            invalidSession = true;
+                            error = "something bad happens, please try again";
+                            break;
+                        default:
+                            error = e.Message;
+                            break;
+                    }
                 }
+            }
+
+            if (invalidSession)
+            {
+                await ParseUser.LogOutAsync();
             }
 
             return error;
@@ -97,18 +112,33 @@ namespace SSWindows.Models
             ValidatePassword();
             var error = _strBuilder.ToString();
             _strBuilder.Clear();
-            
+
             // If there is no error in validation, then try to log in the user.
+            var invalidSession = false;
             if (!error.Any())
             {
                 try
                 {
                     await ParseUser.LogInAsync(Username, Password);
                 }
-                catch (Exception e)
+                catch (ParseException e)
                 {
-                    error = e.Message;
+                    switch (e.Code)
+                    {
+                        case ParseException.ErrorCode.InvalidSessionToken:
+                            invalidSession = true;
+                            error = "something bad happens, please try again";
+                            break;
+                        default :
+                            error = e.Message;
+                            break;
+                    }
                 }
+            }
+
+            if (invalidSession)
+            {
+                await ParseUser.LogOutAsync();
             }
 
             return error;

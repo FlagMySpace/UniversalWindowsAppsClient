@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Navigation;
 using SSWindows.Controls;
@@ -14,53 +15,59 @@ namespace SSWindows.Views
     /// </summary>
     public sealed partial class LoginPage : PageBase
     {
-        private ILoginPageViewModel _viewModel;
+        private ILoginPageViewModel _loginPageViewModel;
         public LoginPage()
         {
             this.InitializeComponent();
 
             this.NavigationCacheMode = NavigationCacheMode.Required;
 
-            _viewModel = DataContext as ILoginPageViewModel;
-        }
-
-        /// <summary>
-        /// Invoked when this page is about to be displayed in a Frame.
-        /// </summary>
-        /// <param name="e">Event data that describes how this page was reached.
-        /// This parameter is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            // TODO: Prepare page for display here.
-
-            // TODO: If your application contains multiple pages, ensure that you are
-            // handling the hardware Back button by registering for the
-            // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
-            // If you are using the NavigationHelper provided by some templates,
-            // this event is handled for you.
+            _loginPageViewModel = DataContext as ILoginPageViewModel;
         }
 
         private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ButtonLogin.IsEnabled = false;
-            var errors = await _viewModel.ValidateLogin();
-            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Registration Failed") : new MessageDialog("login success", "Success");
-            await dialog.ShowAsync();
+            var errors = await _loginPageViewModel.Login();
+            if (errors.Any())
+            {
+                var dialog = new MessageDialog(errors, "Login Failed");
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                _loginPageViewModel.NavigationService.ClearHistory();
+                _loginPageViewModel.NavigationService.Navigate(App.Experiences.Home.ToString(), null);
+            }
             ButtonLogin.IsEnabled = true;
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             ButtonRegister.IsEnabled = false;
-            var errors = await _viewModel.ValidateRegister();
-            var dialog = errors.Length > 0 ? new MessageDialog(errors, "Login Failed") : new MessageDialog("registration success", "Success");
+            var errors = await _loginPageViewModel.Register();
+            MessageDialog dialog;
+            if (errors.Any())
+            {
+                dialog =
+                   new MessageDialog(errors, "Registration Failed");
+                await dialog.ShowAsync();
+            }
+            else
+            {
+                dialog =
+                    new MessageDialog(
+                        String.Format(
+                            "registration success, please verify your email address by checking your inbox at {0}",
+                            _loginPageViewModel.Person.Email), "Success");
+            }
             await dialog.ShowAsync();
             ButtonRegister.IsEnabled = true;
         }
 
         private void HyperlinkButtonForgot_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            _viewModel.NavigationService.Navigate(App.Experiences.Forgot.ToString(), null);
+            _loginPageViewModel.NavigationService.Navigate(App.Experiences.Forgot.ToString(), null);
         }
     }
 }

@@ -8,11 +8,10 @@ using SSWindows.Models;
 
 namespace SSWindows.Interfaces
 {
-    public interface ILoginPageViewModel
+    public interface ILoginPageViewModel : IViewModel
     {
         Person Person { get; set; }
-        Task<string> ValidateLogin();
-        Task<string> ValidateRegister();
-        INavigationService NavigationService { get; set; }
+        Task<string> Login();
+        Task<string> Register();
     }
 }

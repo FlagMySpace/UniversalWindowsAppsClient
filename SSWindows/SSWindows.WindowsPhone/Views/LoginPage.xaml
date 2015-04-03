@@ -15,8 +15,8 @@
         <designTime:LoginPageViewModel />
     </d:Page.DataContext>
 
-    <Pivot Title="PLEASE LOGIN TO CONTINUE">
-        <PivotItem Header="login">
+    <Pivot x:Name="PivotLogin" Title="PLEASE LOGIN/REGISTER TO CONTINUE">
+        <PivotItem x:Name="PivotItemLogin" Header="login">
             <StackPanel>
                 <TextBox x:Name="TextBoxUsername" PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 <PasswordBox x:Name="PasswordBox" PlaceholderText="password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></PasswordBox>

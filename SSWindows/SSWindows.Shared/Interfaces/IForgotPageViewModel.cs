@@ -6,10 +6,9 @@ using Microsoft.Practices.Prism.Mvvm.Interfaces;
 
 namespace SSWindows.Interfaces
 {
-    public interface IForgotPageViewModel
+    public interface IForgotPageViewModel : IViewModel
     {
         string Email { get; set; }
         Task<string> SendRequest(string emailAddress);
-        INavigationService NavigationService { get; set; }
     }
 }
