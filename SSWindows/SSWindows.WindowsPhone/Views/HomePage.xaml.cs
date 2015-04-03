@@ -39,9 +39,15 @@ namespace SSWindows.Views
 
         private async Task Logout(IUICommand command)
         {
-            await ParseUser.LogOutAsync();
+            var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            progressbar.Text = "Clearing your credential, please wait...";
+            await progressbar.ShowAsync();
+
             _homePageViewModel.NavigationService.ClearHistory();
             _homePageViewModel.NavigationService.Navigate(App.Experiences.Login.ToString(), null);
+            await ParseUser.LogOutAsync();
+
+            await progressbar.HideAsync();
         }
 
         private async void AppBarLogout_Click(object sender, RoutedEventArgs e)

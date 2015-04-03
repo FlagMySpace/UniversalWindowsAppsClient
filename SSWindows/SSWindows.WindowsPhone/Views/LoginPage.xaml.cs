@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Navigation;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
@@ -27,6 +28,10 @@ namespace SSWindows.Views
 
         private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            progressbar.Text = "Checking your credential, please wait...";
+            await progressbar.ShowAsync();
+
             ButtonLogin.IsEnabled = false;
             var errors = await _loginPageViewModel.Login();
             if (errors.Any())
@@ -40,10 +45,15 @@ namespace SSWindows.Views
                 _loginPageViewModel.NavigationService.Navigate(App.Experiences.Home.ToString(), null);
             }
             ButtonLogin.IsEnabled = true;
+            await progressbar.HideAsync();
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            progressbar.Text = "Creating your credential, please wait...";
+            await progressbar.ShowAsync();
+
             ButtonRegister.IsEnabled = false;
             var errors = await _loginPageViewModel.Register();
             MessageDialog dialog;
@@ -63,6 +73,7 @@ namespace SSWindows.Views
             }
             await dialog.ShowAsync();
             ButtonRegister.IsEnabled = true;
+            await progressbar.HideAsync();
         }
 
         private void HyperlinkButtonForgot_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
