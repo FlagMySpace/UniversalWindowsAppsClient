@@ -43,9 +43,9 @@ namespace SSWindows.Views
             progressbar.Text = "Clearing your credential, please wait...";
             await progressbar.ShowAsync();
 
+            await ParseUser.LogOutAsync();
             _homePageViewModel.NavigationService.ClearHistory();
             _homePageViewModel.NavigationService.Navigate(App.Experiences.Login.ToString(), null);
-            await ParseUser.LogOutAsync();
 
             await progressbar.HideAsync();
         }

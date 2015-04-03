@@ -49,7 +49,7 @@ namespace SSWindows
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            if (ParseUser.CurrentUser != null && ParseUser.CurrentUser.IsAuthenticated)
+            if (ParseUser.CurrentUser != null && ParseUser.CurrentUser.Get<bool>("emailVerified"))
             {
                 NavigationService.Navigate(Experiences.Home.ToString(), null);
             }

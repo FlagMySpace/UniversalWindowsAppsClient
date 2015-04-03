@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Navigation;
+using Parse;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
 using SSWindows.ViewModels;
@@ -28,8 +30,9 @@ namespace SSWindows.Views
 
         private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            // Show progress bar
             var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            progressbar.Text = "Checking your credential, please wait...";
+            progressbar.Text = "Checking your credential...";
             await progressbar.ShowAsync();
 
             ButtonLogin.IsEnabled = false;
@@ -41,17 +44,27 @@ namespace SSWindows.Views
             }
             else
             {
+                if (!ParseUser.CurrentUser.Get<bool>("emailVerified"))
+                {
+                    var dialog =
+                        new MessageDialog(
+                            "please verify your email address, verification will make sure that you will not lose access to your account (and you will get auto log in enabled)",
+                            "Verify Email");
+                    await dialog.ShowAsync();
+                }
                 _loginPageViewModel.NavigationService.ClearHistory();
                 _loginPageViewModel.NavigationService.Navigate(App.Experiences.Home.ToString(), null);
             }
             ButtonLogin.IsEnabled = true;
+
+            // Hide progress bar
             await progressbar.HideAsync();
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            progressbar.Text = "Creating your credential, please wait...";
+            progressbar.Text = "Creating your credential...";
             await progressbar.ShowAsync();
 
             ButtonRegister.IsEnabled = false;
