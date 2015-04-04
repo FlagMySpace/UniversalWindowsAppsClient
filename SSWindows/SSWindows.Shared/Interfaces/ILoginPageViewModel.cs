@@ -11,7 +11,7 @@ namespace SSWindows.Interfaces
     public interface ILoginPageViewModel : IViewModel
     {
         Person Person { get; set; }
-        Task<string> Login();
-        Task<string> Register();
+        Task Login();
+        Task Register();
     }
 }

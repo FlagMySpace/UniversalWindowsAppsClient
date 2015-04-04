@@ -19,6 +19,8 @@ namespace SSWindows.Views
     public sealed partial class LoginPage : PageBase
     {
         private ILoginPageViewModel _loginPageViewModel;
+        private StatusBarProgressIndicator _progressbar;
+
         public LoginPage()
         {
             this.InitializeComponent();
@@ -30,63 +32,27 @@ namespace SSWindows.Views
 
         private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            // Show progress bar
-            var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            progressbar.Text = "Checking your credential...";
-            await progressbar.ShowAsync();
-
             ButtonLogin.IsEnabled = false;
-            var errors = await _loginPageViewModel.Login();
-            if (errors.Any())
-            {
-                var dialog = new MessageDialog(errors, "Login Failed");
-                await dialog.ShowAsync();
-            }
-            else
-            {
-                if (!ParseUser.CurrentUser.Get<bool>("emailVerified"))
-                {
-                    var dialog =
-                        new MessageDialog(
-                            "please verify your email address, verification will make sure that you will not lose access to your account (and you will get auto log in enabled)",
-                            "Verify Email");
-                    await dialog.ShowAsync();
-                }
-                _loginPageViewModel.NavigationService.ClearHistory();
-                _loginPageViewModel.NavigationService.Navigate(App.Experiences.Home.ToString(), null);
-            }
+            await ShowProgressBar("Checking credential...");
+            await _loginPageViewModel.Login();
             ButtonLogin.IsEnabled = true;
+            await _progressbar.HideAsync();
+        }
 
-            // Hide progress bar
-            await progressbar.HideAsync();
+        private async Task ShowProgressBar(string text)
+        {
+            _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            _progressbar.Text = text;
+            await _progressbar.ShowAsync();
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            progressbar.Text = "Creating your credential...";
-            await progressbar.ShowAsync();
-
             ButtonRegister.IsEnabled = false;
-            var errors = await _loginPageViewModel.Register();
-            MessageDialog dialog;
-            if (errors.Any())
-            {
-                dialog =
-                   new MessageDialog(errors, "Registration Failed");
-                await dialog.ShowAsync();
-            }
-            else
-            {
-                dialog =
-                    new MessageDialog(
-                        String.Format(
-                            "registration success, please verify your email address by checking your inbox at {0}",
-                            _loginPageViewModel.Person.Email), "Success");
-            }
-            await dialog.ShowAsync();
+            await ShowProgressBar("Creating credential...");
+            await _loginPageViewModel.Register();
             ButtonRegister.IsEnabled = true;
-            await progressbar.HideAsync();
+            await _progressbar.HideAsync();
         }
 
         private void HyperlinkButtonForgot_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
+using System.Threading.Tasks;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
@@ -30,6 +31,7 @@ namespace SSWindows.Views
     public sealed partial class ForgotPage : PageBase
     {
         private IForgotPageViewModel _forgotPageViewModel;
+        private StatusBarProgressIndicator _progressbar;
 
         public ForgotPage()
         {
@@ -40,29 +42,22 @@ namespace SSWindows.Views
 
         private async void ButtonSubmit_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            // Verify email address validity before sending the reset command.
-            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            var match = regex.Match(TextBoxEmail.Text);
-            if (!match.Success)
+            var valid = await _forgotPageViewModel.ValidateEmail(TextBoxEmail.Text);
+            if (valid)
             {
-                await new MessageDialog("Please write down valid email address format", "Not Valid").ShowAsync();
-                return;
+                await ShowProgressBar("Resetting password...");
+                ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = false;
+                await _forgotPageViewModel.SendRequest(TextBoxEmail.Text);
+                ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = true;
+                await _progressbar.HideAsync();
             }
+        }
 
-            // Reset using email address written
-            ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = false;
-            var errors = await _forgotPageViewModel.SendRequest(TextBoxEmail.Text);
-            var dialog = errors.Length > 0
-                ? new MessageDialog(errors, "Reset Failed")
-                : new MessageDialog(String.Format("Please check your inbox at {0}", TextBoxEmail.Text), "Success");
-            await dialog.ShowAsync();
-            ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = true;
-            
-            // If reset success then navigate back to previous page
-            if(!errors.Any())
-            {
-                _forgotPageViewModel.NavigationService.GoBack();
-            }
+        private async Task ShowProgressBar(string text)
+        {
+            _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            _progressbar.Text = text;
+            await _progressbar.ShowAsync();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace SSWindows.Interfaces
     public interface IForgotPageViewModel : IViewModel
     {
         string Email { get; set; }
-        Task<string> SendRequest(string emailAddress);
+        Task SendRequest(string emailAddress);
+        Task<bool> ValidateEmail(string email);
     }
 }
