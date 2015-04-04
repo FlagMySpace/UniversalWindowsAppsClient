@@ -6,23 +6,70 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation.Diagnostics;
+using Microsoft.Practices.Prism.Mvvm;
 using Parse;
 
 namespace SSWindows.Models
 {
-    public class Person
+    public class Person : BindableBase
     {
         private StringBuilder _strBuilder;
 
         public Person()
         {
             _strBuilder = new StringBuilder("");
+
+            if (ParseUser.CurrentUser != null)
+            {
+                var user = ParseUser.CurrentUser;
+                Username = user.Username;
+                Email = user.Email;
+            }
         }
 
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
-        public string Email { get; set; }
+        private string _mUsername = default(string);
+        public string Username
+        {
+            get { return _mUsername; }
+            set
+            {
+                _mUsername = value;
+                SetProperty(ref _mUsername, value);
+            }
+        }
+
+        private string _mPassword = default(string);
+        public string Password
+        {
+            get { return _mPassword; }
+            set
+            {
+                _mPassword = value;
+                SetProperty(ref _mPassword, value);
+            }
+        }
+
+        private string _mConfirmPassword = default(string);
+        public string ConfirmPassword
+        {
+            get { return _mConfirmPassword; }
+            set
+            {
+                _mConfirmPassword = value;
+                SetProperty(ref _mConfirmPassword, value);
+            }
+        }
+
+        private string _mEmail = default(string);
+        public string Email
+        {
+            get { return _mEmail; }
+            set
+            {
+                _mEmail = value;
+                SetProperty(ref _mEmail, value);
+            }
+        }
 
         private async void ValidateUsername()
         {
@@ -68,7 +115,6 @@ namespace SSWindows.Models
             _strBuilder.Clear();
 
             // If there is no error in validation, then try to register the user.
-            var invalidSession = false;
             if (!error.Any())
             {
                 var user = new ParseUser()
@@ -87,7 +133,6 @@ namespace SSWindows.Models
                     switch (e.Code)
                     {
                         case ParseException.ErrorCode.InvalidSessionToken:
-                            invalidSession = true;
                             error = "something bad happens, please try again";
                             break;
                         default:
@@ -95,11 +140,6 @@ namespace SSWindows.Models
                             break;
                     }
                 }
-            }
-
-            if (invalidSession)
-            {
-                await ParseUser.LogOutAsync();
             }
 
             return error;
@@ -114,7 +154,6 @@ namespace SSWindows.Models
             _strBuilder.Clear();
 
             // If there is no error in validation, then try to log in the user.
-            var invalidSession = false;
             if (!error.Any())
             {
                 try
@@ -126,7 +165,6 @@ namespace SSWindows.Models
                     switch (e.Code)
                     {
                         case ParseException.ErrorCode.InvalidSessionToken:
-                            invalidSession = true;
                             error = "something bad happens, please try again";
                             break;
                         default :
@@ -136,13 +174,44 @@ namespace SSWindows.Models
                 }
             }
 
-            if (invalidSession)
+            return error;
+        }
+
+        public async Task<string> Update()
+        {
+            _strBuilder.Clear();
+            ValidateUsername();
+            ValidatePassword(true);
+            ValidateEmail();
+            var error = _strBuilder.ToString();
+            _strBuilder.Clear();
+
+            // If there is no error in validation, then try to register the user.
+            if (!error.Any())
             {
-                await ParseUser.LogOutAsync();
+                ParseUser.CurrentUser.Username = Username;
+                ParseUser.CurrentUser.Password = Password;
+                ParseUser.CurrentUser.Email = Email;
+
+                try
+                {
+                    await ParseUser.CurrentUser.SaveAsync();
+                }
+                catch (ParseException e)
+                {
+                    switch (e.Code)
+                    {
+                        case ParseException.ErrorCode.InvalidSessionToken:
+                            error = "something bad happens, please try again";
+                            break;
+                        default:
+                            error = e.Message;
+                            break;
+                    }
+                }
             }
 
             return error;
         }
-        
     }
 }

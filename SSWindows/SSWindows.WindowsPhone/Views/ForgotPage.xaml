@@ -34,7 +34,7 @@
             
             <TextBox x:Name="TextBoxEmail" PlaceholderText="email address"></TextBox>
             <Button x:Name="ButtonSubmit" Grid.Row="1" Content="submit" HorizontalAlignment="Stretch" Tapped="ButtonSubmit_Tapped"></Button>
-            <TextBlock Grid.Row="2" TextWrapping="WrapWholeWords" Text="if email address you provided match with any that we have in our database, we will send you an email to reset your password"></TextBlock>
+            <TextBlock Grid.Row="2" TextWrapping="WrapWholeWords" Text="if email address you provided match with any that we have in our database, we will send you an email to reset your password" FontSize="{StaticResource TextStyleMediumFontSize}"></TextBlock>
         </Grid>
     </Grid>
 </controls:PageBase>

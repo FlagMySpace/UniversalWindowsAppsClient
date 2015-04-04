@@ -11,7 +11,6 @@ using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Unity;
 using Parse;
-using SSWindows.Events;
 using SSWindows.Interfaces;
 using SSWindows.Models;
 
@@ -26,23 +25,13 @@ namespace SSWindows.ViewModels
             NavigationService = navigationService;
         }
 
-        private Person _mPerson = default(Person);
-
         public LoginPageViewModel()
         {
         }
 
         public INavigationService NavigationService { get; set; }
 
-        public Person Person
-        {
-            get { return _mPerson; }
-            set
-            {
-                _mPerson = value;
-                SetProperty(ref _mPerson, value);
-            }
-        }
+        public Person Person { get; set; }
 
         public async Task Login()
         {

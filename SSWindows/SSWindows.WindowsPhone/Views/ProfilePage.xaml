@@ -1,0 +1,32 @@
+﻿<controls:PageBase
+    x:Class="SSWindows.Views.ProfilePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SSWindows.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
+    xmlns:designTime="using:SSWindows.ViewModels"
+    prism:ViewModelLocator.AutoWireViewModel="True"
+    xmlns:controls="using:SSWindows.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <d:Page.DataContext>
+        <designTime:ProfilePageViewModel/>
+    </d:Page.DataContext>
+    
+    <Grid x:Name="LayoutRoot">
+        <Pivot Title="USERNAME">
+            <PivotItem Header="profile">
+                <StackPanel>
+                    <TextBox PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <PasswordBox PlaceholderText="change password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <PasswordBox PlaceholderText="confirm password" Password="{Binding Person.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox PlaceholderText="change email" Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <Button Content="save" HorizontalAlignment="Stretch" />
+                </StackPanel>
+            </PivotItem>
+        </Pivot>
+    </Grid>
+</controls:PageBase>

@@ -55,5 +55,10 @@ namespace SSWindows.Views
             dialog.CancelCommandIndex = 1;
             await dialog.ShowAsync();
         }
+
+        private void AppBarProfil_Click(object sender, RoutedEventArgs e)
+        {
+            _homePageViewModel.NavigationService.Navigate(App.Experiences.Profile.ToString(), null);
+        }
     }
 }
