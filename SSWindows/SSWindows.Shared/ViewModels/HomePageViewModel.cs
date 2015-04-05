@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
@@ -21,6 +22,7 @@ namespace SSWindows.ViewModels
 
         public async Task Logout()
         {
+            ExceptionDispatchInfo capturedException = null;
             try
             {
                 await ParseUser.LogOutAsync();
@@ -29,7 +31,12 @@ namespace SSWindows.ViewModels
             }
             catch (ParseException ex)
             {
-                new MessageDialog(ex.Message, "Error").ShowAsync();
+                capturedException = ExceptionDispatchInfo.Capture(ex);
+            }
+
+            if (capturedException != null)
+            {
+                await new MessageDialog(capturedException.SourceException.Message, "Error").ShowAsync();
             }
         }
     }

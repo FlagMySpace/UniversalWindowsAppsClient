@@ -71,35 +71,35 @@ namespace SSWindows.Models
             }
         }
 
-        private async void ValidateUsername()
+        private void ValidateUsername(bool required = true)
         {
-            if (String.IsNullOrWhiteSpace(Username))
+            if (required && String.IsNullOrWhiteSpace(Username))
             {
                 _strBuilder.Append("- username is empty\n");
-                return;
             }
+            if (String.IsNullOrWhiteSpace(Username)) return;
         }
 
-        private void ValidatePassword(bool confirm = false)
+        private void ValidatePassword(bool confirm = false, bool required = true)
         {
-            if (Password == null)
+            if (required && String.IsNullOrWhiteSpace(Password))
             {
                 _strBuilder.Append("- password is empty\n");
-                return;
             }
+            if (String.IsNullOrWhiteSpace(Password)) return;
             if (confirm && !Password.Equals(ConfirmPassword))
             {
                 _strBuilder.Append("- passwords mismatch\n");
             }
         }
 
-        private void ValidateEmail()
+        private void ValidateEmail(bool required = true)
         {
-            if (Email == null)
+            if (required && String.IsNullOrWhiteSpace(Email))
             {
                 _strBuilder.Append("- email address is empty\n");
-                return;
             }
+            if (String.IsNullOrWhiteSpace(Email)) return;
             var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             var match = regex.Match(Email);
             if (!match.Success) _strBuilder.Append("- email address is not valid\n");
@@ -177,24 +177,25 @@ namespace SSWindows.Models
             return error;
         }
 
-        public async Task<string> Update()
+        public async Task<string> Update(string oldUsername, string oldPassword)
         {
             _strBuilder.Clear();
-            ValidateUsername();
-            ValidatePassword(true);
-            ValidateEmail();
+            ValidateUsername(false);
+            ValidatePassword(true, false);
+            ValidateEmail(false);
             var error = _strBuilder.ToString();
             _strBuilder.Clear();
 
             // If there is no error in validation, then try to register the user.
             if (!error.Any())
             {
-                ParseUser.CurrentUser.Username = Username;
-                ParseUser.CurrentUser.Password = Password;
-                ParseUser.CurrentUser.Email = Email;
+                if (!String.IsNullOrWhiteSpace(Username)) ParseUser.CurrentUser.Username = Username;
+                if (!String.IsNullOrWhiteSpace(Password)) ParseUser.CurrentUser.Password = Password;
+                if (!String.IsNullOrWhiteSpace(Email)) ParseUser.CurrentUser.Email = Email;
 
                 try
                 {
+                    await ParseUser.LogInAsync(oldUsername, oldPassword);
                     await ParseUser.CurrentUser.SaveAsync();
                 }
                 catch (ParseException e)

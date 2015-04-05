@@ -15,17 +15,23 @@
     <d:Page.DataContext>
         <designTime:ProfilePageViewModel/>
     </d:Page.DataContext>
-    
+
     <Grid x:Name="LayoutRoot">
         <Pivot Title="USERNAME">
             <PivotItem Header="profile">
-                <StackPanel>
-                    <TextBox PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <PasswordBox PlaceholderText="change password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <PasswordBox PlaceholderText="confirm password" Password="{Binding Person.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    <TextBox PlaceholderText="change email" Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    <Button Content="save" HorizontalAlignment="Stretch" />
-                </StackPanel>
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="Edit yout profile" FontSize="{StaticResource TextStyleMediumFontSize}"/>
+                        <TextBox PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <PasswordBox PlaceholderText="change password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <PasswordBox PlaceholderText="confirm password" Password="{Binding Person.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBox PlaceholderText="change email" Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Please retype your old username and old password. Keep in mind that if you failed loging in we will automatically log you out for security concern." TextWrapping="WrapWholeWords" FontSize="{StaticResource TextStyleMediumFontSize}"/>
+                        <TextBox x:Name="TextBoxOldUsername" PlaceholderText="old username" />
+                        <PasswordBox x:Name="PasswordBoxOld" PlaceholderText="old password" />
+                        <Button x:Name="ButtonSave" Content="save" HorizontalAlignment="Stretch" Click="ButtonSave_Click"  />
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
         </Pivot>
     </Grid>
