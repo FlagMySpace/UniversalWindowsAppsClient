@@ -13,16 +13,18 @@ namespace SSWindows.ViewModels
 {
     public class HomePageViewModel : ViewModel, IHomePageViewModel
     {
-        public HomePageViewModel(INavigationService navigationService)
+        public HomePageViewModel(INavigationService navigationService, IError error)
         {
             NavigationService = navigationService;
+            Error = error;
         }
+
+        public IError Error { get; set; }
 
         public INavigationService NavigationService { get; set; }
 
         public async Task Logout()
         {
-            ExceptionDispatchInfo capturedException = null;
             try
             {
                 await ParseUser.LogOutAsync();
@@ -31,13 +33,10 @@ namespace SSWindows.ViewModels
             }
             catch (ParseException ex)
             {
-                capturedException = ExceptionDispatchInfo.Capture(ex);
+                Error.CaptureError(ex);
             }
 
-            if (capturedException != null)
-            {
-                await new MessageDialog(capturedException.SourceException.Message, "Error").ShowAsync();
-            }
+            await Error.InvokeError();
         }
     }
 }

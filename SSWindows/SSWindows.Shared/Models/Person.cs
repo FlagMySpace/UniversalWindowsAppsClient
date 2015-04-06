@@ -1,19 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Windows.Foundation.Diagnostics;
 using Microsoft.Practices.Prism.Mvvm;
 using Parse;
+using SSWindows.Interfaces;
 
 namespace SSWindows.Models
 {
     public class Person : BindableBase
     {
-        private StringBuilder _strBuilder;
+        private string _mConfirmPassword = default(string);
+        private string _mEmail = default(string);
+        private string _mPassword = default(string);
+        private string _mUsername = default(string);
+        private readonly StringBuilder _strBuilder;
 
         public Person()
         {
@@ -27,7 +29,6 @@ namespace SSWindows.Models
             }
         }
 
-        private string _mUsername = default(string);
         public string Username
         {
             get { return _mUsername; }
@@ -38,7 +39,6 @@ namespace SSWindows.Models
             }
         }
 
-        private string _mPassword = default(string);
         public string Password
         {
             get { return _mPassword; }
@@ -49,7 +49,6 @@ namespace SSWindows.Models
             }
         }
 
-        private string _mConfirmPassword = default(string);
         public string ConfirmPassword
         {
             get { return _mConfirmPassword; }
@@ -60,7 +59,6 @@ namespace SSWindows.Models
             }
         }
 
-        private string _mEmail = default(string);
         public string Email
         {
             get { return _mEmail; }
@@ -75,7 +73,7 @@ namespace SSWindows.Models
         {
             if (required && String.IsNullOrWhiteSpace(Username))
             {
-                _strBuilder.Append("- username is empty\n");
+                _strBuilder.Append("username is empty\n");
             }
             if (String.IsNullOrWhiteSpace(Username)) return;
         }
@@ -84,12 +82,12 @@ namespace SSWindows.Models
         {
             if (required && String.IsNullOrWhiteSpace(Password))
             {
-                _strBuilder.Append("- password is empty\n");
+                _strBuilder.Append("password is empty\n");
             }
             if (String.IsNullOrWhiteSpace(Password)) return;
             if (confirm && !Password.Equals(ConfirmPassword))
             {
-                _strBuilder.Append("- passwords mismatch\n");
+                _strBuilder.Append("passwords mismatch\n");
             }
         }
 
@@ -97,12 +95,12 @@ namespace SSWindows.Models
         {
             if (required && String.IsNullOrWhiteSpace(Email))
             {
-                _strBuilder.Append("- email address is empty\n");
+                _strBuilder.Append("email address is empty\n");
             }
             if (String.IsNullOrWhiteSpace(Email)) return;
             var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
             var match = regex.Match(Email);
-            if (!match.Success) _strBuilder.Append("- email address is not valid\n");
+            if (!match.Success) _strBuilder.Append("email address is not valid\n");
         }
 
         public async Task<string> Register()
@@ -117,7 +115,7 @@ namespace SSWindows.Models
             // If there is no error in validation, then try to register the user.
             if (!error.Any())
             {
-                var user = new ParseUser()
+                var user = new ParseUser
                 {
                     Username = Username,
                     Password = Password,
@@ -167,7 +165,7 @@ namespace SSWindows.Models
                         case ParseException.ErrorCode.InvalidSessionToken:
                             error = "something bad happens, please try again";
                             break;
-                        default :
+                        default:
                             error = e.Message;
                             break;
                     }
