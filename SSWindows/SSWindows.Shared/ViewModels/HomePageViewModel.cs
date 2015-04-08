@@ -74,9 +74,9 @@ namespace SSWindows.ViewModels
             await HomePage.ShowLogoutProgressBar();
             try
             {
-                await ParseUser.LogOutAsync();
                 NavigationService.ClearHistory();
                 NavigationService.Navigate(App.Experiences.Login.ToString(), null);
+                await ParseUser.LogOutAsync();
             }
             catch (ParseException ex)
             {
