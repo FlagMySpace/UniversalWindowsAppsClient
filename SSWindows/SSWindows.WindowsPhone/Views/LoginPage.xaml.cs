@@ -22,28 +22,25 @@ namespace SSWindows.Views
 
         public LoginPage()
         {
-            this.InitializeComponent();
-
-            this.NavigationCacheMode = NavigationCacheMode.Required;
-
+            InitializeComponent();
             _loginPageViewModel = DataContext as ILoginPageViewModel;
         }
 
         private async void ButtonLogin_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            ButtonLogin.IsEnabled = false;
+            ButtonLogin.IsEnabled = ButtonRegister.IsEnabled = false;
             await ShowProgressBar("Checking credential...");
             await _loginPageViewModel.Login();
-            ButtonLogin.IsEnabled = true;
+            ButtonLogin.IsEnabled = ButtonRegister.IsEnabled = true;
             await HideProgressBar();
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            ButtonRegister.IsEnabled = false;
+            ButtonRegister.IsEnabled = ButtonLogin.IsEnabled = false;
             await ShowProgressBar("Creating credential...");
             await _loginPageViewModel.Register();
-            ButtonRegister.IsEnabled = true;
+            ButtonRegister.IsEnabled = ButtonLogin.IsEnabled = true;
             await HideProgressBar();
         }
 

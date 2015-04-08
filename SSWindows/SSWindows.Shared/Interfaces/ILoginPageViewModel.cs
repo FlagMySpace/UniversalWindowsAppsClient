@@ -10,7 +10,7 @@ namespace SSWindows.Interfaces
 {
     public interface ILoginPageViewModel : IViewModel
     {
-        Person Person { get; set; }
+        IPerson Person { get; set; }
         Task Login();
         Task Register();
         INavigationService NavigationService { get; set; }

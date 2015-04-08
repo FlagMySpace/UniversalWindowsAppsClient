@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.Practices.Prism.Mvvm;
@@ -14,19 +12,17 @@ namespace SSWindows.ViewModels
 {
     public class ProfilePageViewModel : ViewModel, IProfilePageViewModel
     {
-        public Person Person { get; set; }
-
-        public ProfilePageViewModel(INavigationService navigationService)
+        public ProfilePageViewModel(INavigationService navigationService, IPerson person)
         {
-            Person = new Person();
+            Person = person;
             NavigationService = navigationService;
         }
 
         public ProfilePageViewModel()
         {
-
         }
 
+        public IPerson Person { get; set; }
         public INavigationService NavigationService { get; set; }
 
         public async Task UpdateProfile(string oldUsername, string oldPassword)

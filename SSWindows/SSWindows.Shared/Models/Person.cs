@@ -9,7 +9,7 @@ using SSWindows.Interfaces;
 
 namespace SSWindows.Models
 {
-    public class Person : BindableBase
+    public class Person : BindableBase, IPerson
     {
         private string _mConfirmPassword = default(string);
         private string _mEmail = default(string);
@@ -20,13 +20,6 @@ namespace SSWindows.Models
         public Person()
         {
             _strBuilder = new StringBuilder("");
-
-            if (ParseUser.CurrentUser != null)
-            {
-                var user = ParseUser.CurrentUser;
-                Username = user.Username;
-                Email = user.Email;
-            }
         }
 
         public string Username
@@ -67,6 +60,11 @@ namespace SSWindows.Models
                 _mEmail = value;
                 SetProperty(ref _mEmail, value);
             }
+        }
+
+        public ParseUser LoggedInUser
+        {
+            get { return ParseUser.CurrentUser; }
         }
 
         private void ValidateUsername(bool required = true)
@@ -184,7 +182,7 @@ namespace SSWindows.Models
             var error = _strBuilder.ToString();
             _strBuilder.Clear();
 
-            // If there is no error in validation, then try to register the user.
+            // If there is no error in validation, then try to update the user.
             if (!error.Any())
             {
                 if (!String.IsNullOrWhiteSpace(Username)) ParseUser.CurrentUser.Username = Username;

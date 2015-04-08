@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
-using Microsoft.Practices.Prism.PubSubEvents;
-using Microsoft.Practices.Unity;
 using Parse;
 using SSWindows.Interfaces;
 using SSWindows.Models;
@@ -18,9 +12,9 @@ namespace SSWindows.ViewModels
 {
     public class LoginPageViewModel : ViewModel, ILoginPageViewModel
     {
-        public LoginPageViewModel(INavigationService navigationService)
+        public LoginPageViewModel(INavigationService navigationService, IPerson person)
         {
-            Person = new Person();
+            Person = person;
 
             NavigationService = navigationService;
         }
@@ -29,11 +23,9 @@ namespace SSWindows.ViewModels
         {
         }
 
-        public INavigationService NavigationService { get; set; }
-
         public IView View { get; set; }
-
-        public Person Person { get; set; }
+        public INavigationService NavigationService { get; set; }
+        public IPerson Person { get; set; }
 
         public async Task Login()
         {
@@ -65,7 +57,7 @@ namespace SSWindows.ViewModels
             if (errors.Any())
             {
                 dialog =
-                   new MessageDialog(errors, "Registration Failed");
+                    new MessageDialog(errors, "Registration Failed");
                 await dialog.ShowAsync();
             }
             else

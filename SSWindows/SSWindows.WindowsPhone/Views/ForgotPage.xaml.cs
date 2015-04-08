@@ -1,40 +1,21 @@
-﻿using SSWindows.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text.RegularExpressions;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+﻿using Windows.UI.Xaml.Input;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
-using System.Threading.Tasks;
 
 // The Basic Page item template is documented at http://go.microsoft.com/fwlink/?LinkID=390556
 
 namespace SSWindows.Views
 {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    ///     An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ForgotPage : PageBasePhone
     {
-        private IForgotPageViewModel _forgotPageViewModel;
+        private readonly IForgotPageViewModel _forgotPageViewModel;
 
         public ForgotPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
 
             _forgotPageViewModel = DataContext as IForgotPageViewModel;
         }

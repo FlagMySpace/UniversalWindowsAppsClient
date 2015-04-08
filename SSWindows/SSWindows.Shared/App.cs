@@ -6,7 +6,6 @@ using Microsoft.Practices.Unity;
 using Parse;
 using SSWindows.Common;
 using SSWindows.Interfaces;
-using SSWindows.Models;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -43,7 +42,6 @@ namespace SSWindows
             Container.RegisterInstance(SessionStateService);
             Container.RegisterInstance(NavigationService);
             Container.RegisterInstance<IError>(new ErrorHandler());
-            Container.RegisterInstance<IPerson>(new Person());
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(viewModelType => Container.Resolve(viewModelType));
             return Task.FromResult<object>(null);
