@@ -43,7 +43,7 @@ namespace SSWindows
             Container.RegisterInstance(SessionStateService);
             Container.RegisterInstance(NavigationService);
             Container.RegisterInstance<IError>(new ErrorHandler());
-            Container.RegisterInstance<IPerson>(new Person());
+            Container.RegisterInstance<IPerson>(new Person(Container.Resolve<IError>()));
 
             ViewModelLocationProvider.SetDefaultViewModelFactory(viewModelType => Container.Resolve(viewModelType));
             return Task.FromResult<object>(null);

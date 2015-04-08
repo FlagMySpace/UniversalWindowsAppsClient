@@ -16,11 +16,14 @@ namespace SSWindows.Models
         private string _mPassword = default(string);
         private string _mUsername = default(string);
         private readonly StringBuilder _strBuilder;
-
-        public Person()
+        
+        public Person(IError error)
         {
+            _error = error;
             _strBuilder = new StringBuilder("");
         }
+
+        private IError _error;
 
         public string Username
         {
@@ -126,16 +129,10 @@ namespace SSWindows.Models
                 }
                 catch (ParseException e)
                 {
-                    switch (e.Code)
-                    {
-                        case ParseException.ErrorCode.InvalidSessionToken:
-                            error = "something bad happens, please try again";
-                            break;
-                        default:
-                            error = e.Message;
-                            break;
-                    }
+                    _error.CaptureError(e);
                 }
+
+                await _error.InvokeError();
             }
 
             return error;
@@ -158,16 +155,10 @@ namespace SSWindows.Models
                 }
                 catch (ParseException e)
                 {
-                    switch (e.Code)
-                    {
-                        case ParseException.ErrorCode.InvalidSessionToken:
-                            error = "something bad happens, please try again";
-                            break;
-                        default:
-                            error = e.Message;
-                            break;
-                    }
+                    _error.CaptureError(e);
                 }
+
+                await _error.InvokeError();
             }
 
             return error;

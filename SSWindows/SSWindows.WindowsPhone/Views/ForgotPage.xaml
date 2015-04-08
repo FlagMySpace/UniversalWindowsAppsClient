@@ -8,7 +8,6 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
-    xmlns:designTime="using:SSWindows.DesignTime"
     prism:ViewModelLocator.AutoWireViewModel="True"
     xmlns:controls="using:SSWindows.Controls">
 
