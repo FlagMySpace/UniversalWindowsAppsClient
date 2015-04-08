@@ -12,6 +12,5 @@ namespace SSWindows.Interfaces
         string Password { get; set; }
         string ConfirmPassword { get; set; }
         string Email { get; set; }
-        ParseUser LoggedInUser { get; }
     }
 }

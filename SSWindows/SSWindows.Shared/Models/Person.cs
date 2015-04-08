@@ -15,15 +15,15 @@ namespace SSWindows.Models
         private string _mEmail = default(string);
         private string _mPassword = default(string);
         private string _mUsername = default(string);
+        private readonly IError _error;
         private readonly StringBuilder _strBuilder;
-        
+
         public Person(IError error)
         {
             _error = error;
             _strBuilder = new StringBuilder("");
+            MapParseToUser();
         }
-
-        private IError _error;
 
         public string Username
         {
@@ -65,45 +65,6 @@ namespace SSWindows.Models
             }
         }
 
-        public ParseUser LoggedInUser
-        {
-            get { return ParseUser.CurrentUser; }
-        }
-
-        private void ValidateUsername(bool required = true)
-        {
-            if (required && String.IsNullOrWhiteSpace(Username))
-            {
-                _strBuilder.Append("username is empty\n");
-            }
-            if (String.IsNullOrWhiteSpace(Username)) return;
-        }
-
-        private void ValidatePassword(bool confirm = false, bool required = true)
-        {
-            if (required && String.IsNullOrWhiteSpace(Password))
-            {
-                _strBuilder.Append("password is empty\n");
-            }
-            if (String.IsNullOrWhiteSpace(Password)) return;
-            if (confirm && !Password.Equals(ConfirmPassword))
-            {
-                _strBuilder.Append("passwords mismatch\n");
-            }
-        }
-
-        private void ValidateEmail(bool required = true)
-        {
-            if (required && String.IsNullOrWhiteSpace(Email))
-            {
-                _strBuilder.Append("email address is empty\n");
-            }
-            if (String.IsNullOrWhiteSpace(Email)) return;
-            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            var match = regex.Match(Email);
-            if (!match.Success) _strBuilder.Append("email address is not valid\n");
-        }
-
         public async Task<string> Register()
         {
             _strBuilder.Clear();
@@ -126,6 +87,7 @@ namespace SSWindows.Models
                 try
                 {
                     await user.SignUpAsync();
+                    MapParseToUser();
                 }
                 catch (ParseException e)
                 {
@@ -152,6 +114,7 @@ namespace SSWindows.Models
                 try
                 {
                     await ParseUser.LogInAsync(Username, Password);
+                    MapParseToUser();
                 }
                 catch (ParseException e)
                 {
@@ -200,6 +163,50 @@ namespace SSWindows.Models
             }
 
             return error;
+        }
+
+        private void MapParseToUser()
+        {
+            var user = ParseUser.CurrentUser;
+            if (user != null)
+            {
+                Username = user.Username;
+                Email = user.Email;
+            }
+        }
+
+        private void ValidateUsername(bool required = true)
+        {
+            if (required && String.IsNullOrWhiteSpace(Username))
+            {
+                _strBuilder.Append("username is empty\n");
+            }
+            if (String.IsNullOrWhiteSpace(Username)) return;
+        }
+
+        private void ValidatePassword(bool confirm = false, bool required = true)
+        {
+            if (required && String.IsNullOrWhiteSpace(Password))
+            {
+                _strBuilder.Append("password is empty\n");
+            }
+            if (String.IsNullOrWhiteSpace(Password)) return;
+            if (confirm && !Password.Equals(ConfirmPassword))
+            {
+                _strBuilder.Append("passwords mismatch\n");
+            }
+        }
+
+        private void ValidateEmail(bool required = true)
+        {
+            if (required && String.IsNullOrWhiteSpace(Email))
+            {
+                _strBuilder.Append("email address is empty\n");
+            }
+            if (String.IsNullOrWhiteSpace(Email)) return;
+            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            var match = regex.Match(Email);
+            if (!match.Success) _strBuilder.Append("email address is not valid\n");
         }
     }
 }
