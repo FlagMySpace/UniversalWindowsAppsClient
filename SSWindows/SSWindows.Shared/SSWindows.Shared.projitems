@@ -23,10 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePageViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IPerson.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IProfilePageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IViewModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\Person.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ForgotPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HomePageViewModel.cs" />
@@ -35,6 +33,7 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)DesignTime\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\" />
+    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
   </ItemGroup>
 </Project>

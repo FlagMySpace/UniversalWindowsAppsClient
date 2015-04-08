@@ -4,6 +4,7 @@ using Windows.UI.Popups;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Parse;
+using SSWindows.Common;
 using SSWindows.Interfaces;
 
 namespace SSWindows.ViewModels
@@ -59,14 +60,6 @@ namespace SSWindows.ViewModels
                 NavigationService.ClearHistory();
                 NavigationService.Navigate(App.Experiences.Login.ToString(), null);
             }
-            else
-            {
-                await ProfilePage.HideUpdateProgress();
-                await
-                    new MessageDialog(
-                        "your changes have been saved, if you change your email address, you need to check your email for verification",
-                        "Success").ShowAsync();
-            }
         }
 
         private async Task UpdateSave(string currentPassword)
@@ -79,6 +72,12 @@ namespace SSWindows.ViewModels
                 if (!String.IsNullOrWhiteSpace(Email)) ParseUser.CurrentUser.Email = Email;
                 await ParseUser.CurrentUser.SaveAsync();
                 MapParseToUser();
+
+                await ProfilePage.HideUpdateProgress();
+                await
+                    new MessageDialog(
+                        "your changes have been saved, if you change your email address, you need to check your email for verification",
+                        "Success").ShowAsync();
             }
             catch (ParseException e)
             {

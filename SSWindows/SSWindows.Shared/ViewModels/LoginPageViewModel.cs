@@ -1,41 +1,48 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Parse;
+using SSWindows.Common;
 using SSWindows.Interfaces;
-using SSWindows.Models;
 
 namespace SSWindows.ViewModels
 {
     public class LoginPageViewModel : ViewModel, ILoginPageViewModel
     {
-        public LoginPageViewModel(INavigationService navigationService, IPerson person)
+        public LoginPageViewModel(INavigationService navigationService, IError error)
         {
-            Person = person;
-
             NavigationService = navigationService;
+            Error = error;
         }
 
         public LoginPageViewModel()
         {
         }
 
+        public IError Error { get; set; }
         public IView View { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Username { get; set; }
+        public string ConfirmPassword { get; set; }
         public INavigationService NavigationService { get; set; }
-        public IPerson Person { get; set; }
 
         public async Task Login()
         {
-            var errors = await Person.Login();
-            if (errors.Any())
+            try
             {
-                var dialog = new MessageDialog(errors, "Login Failed");
-                await dialog.ShowAsync();
+                await ParseUser.LogInAsync(Username, Password);
             }
-            else
+            catch (ParseException e)
+            {
+                Error.CaptureError(e);
+            }
+
+            await Error.InvokeError();
+
+            if (ParseUser.CurrentUser != null)
             {
                 if (!ParseUser.CurrentUser.Get<bool>("emailVerified"))
                 {
@@ -52,23 +59,31 @@ namespace SSWindows.ViewModels
 
         public async Task Register()
         {
-            var errors = await Person.Register();
-            MessageDialog dialog;
-            if (errors.Any())
+            var user = new ParseUser
             {
-                dialog =
-                    new MessageDialog(errors, "Registration Failed");
-                await dialog.ShowAsync();
-            }
-            else
+                Username = Username,
+                Password = Password,
+                Email = Email
+            };
+
+            try
             {
-                dialog =
-                    new MessageDialog(
-                        String.Format(
-                            "registration success, please verify your email address by checking your inbox at {0}",
-                            Person.Email), "Success");
+                await user.SignUpAsync();
             }
-            await dialog.ShowAsync();
+            catch (ParseException e)
+            {
+                Error.CaptureError(e);
+            }
+
+            await Error.InvokeError();
+
+            if (ParseUser.CurrentUser != null)
+            {
+                await new MessageDialog(
+                    String.Format(
+                        "registration success, please verify your email address by checking your inbox at {0}",
+                        Email), "Success").ShowAsync();
+            }
         }
     }
 }

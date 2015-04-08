@@ -6,6 +6,7 @@ using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Microsoft.Practices.Prism.PubSubEvents;
 using Parse;
+using SSWindows.Common;
 using SSWindows.Interfaces;
 
 namespace SSWindows.ViewModels
@@ -13,6 +14,7 @@ namespace SSWindows.ViewModels
     public class HomePageViewModel : ViewModel, IHomePageViewModel
     {
         #region Constructors
+
         public HomePageViewModel(INavigationService navigationService, IError error, IEventAggregator eventAggregator)
         {
             NavigationService = navigationService;
@@ -23,11 +25,17 @@ namespace SSWindows.ViewModels
         public HomePageViewModel()
         {
         }
+
         #endregion
 
         public async Task Logout()
         {
-            await LogoutDialog();
+            var dialog = new MessageDialog("do you want to logout?", "Confirmation");
+            dialog.Commands.Add(new UICommand("Yes", async command => await Logout(command)));
+            dialog.Commands.Add(new UICommand("No"));
+            dialog.DefaultCommandIndex = 0;
+            dialog.CancelCommandIndex = 1;
+            await dialog.ShowAsync();
         }
 
         public IEventAggregator EventAggregator { get; set; }
@@ -57,16 +65,6 @@ namespace SSWindows.ViewModels
                 }
                 return Visibility.Collapsed;
             }
-        }
-
-        public async Task LogoutDialog()
-        {
-            var dialog = new MessageDialog("do you want to logout?", "Confirmation");
-            dialog.Commands.Add(new UICommand("Yes", async command => await Logout(command)));
-            dialog.Commands.Add(new UICommand("No"));
-            dialog.DefaultCommandIndex = 0;
-            dialog.CancelCommandIndex = 1;
-            await dialog.ShowAsync();
         }
 
         private async Task Logout(IUICommand command)

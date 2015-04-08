@@ -13,6 +13,7 @@ namespace SSWindows.Controls
         public override async Task ShowProgressBar(string text)
         {
             _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            await _progressbar.HideAsync();
             _progressbar.Text = text;
             await _progressbar.ShowAsync();
         }

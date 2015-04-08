@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace SSWindows.Interfaces
+namespace SSWindows.Common
 {
     public interface IError
     {
