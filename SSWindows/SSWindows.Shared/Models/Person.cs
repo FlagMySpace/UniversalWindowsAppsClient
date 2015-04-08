@@ -139,27 +139,23 @@ namespace SSWindows.Models
             // If there is no error in validation, then try to update the user.
             if (!error.Any())
             {
-                if (!String.IsNullOrWhiteSpace(Username)) ParseUser.CurrentUser.Username = Username;
-                if (!String.IsNullOrWhiteSpace(Password)) ParseUser.CurrentUser.Password = Password;
-                if (!String.IsNullOrWhiteSpace(Email)) ParseUser.CurrentUser.Email = Email;
 
                 try
                 {
                     await ParseUser.LogInAsync(oldUsername, oldPassword);
+
+                    if (!String.IsNullOrWhiteSpace(Username)) ParseUser.CurrentUser.Username = Username;
+                    if (!String.IsNullOrWhiteSpace(Password)) ParseUser.CurrentUser.Password = Password;
+                    if (!String.IsNullOrWhiteSpace(Email)) ParseUser.CurrentUser.Email = Email;
                     await ParseUser.CurrentUser.SaveAsync();
+                    MapParseToUser();
                 }
                 catch (ParseException e)
                 {
-                    switch (e.Code)
-                    {
-                        case ParseException.ErrorCode.InvalidSessionToken:
-                            error = "something bad happens, please try again";
-                            break;
-                        default:
-                            error = e.Message;
-                            break;
-                    }
+                    _error.CaptureError(e);
                 }
+
+                await _error.InvokeError();
             }
 
             return error;

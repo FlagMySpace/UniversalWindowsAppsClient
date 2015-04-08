@@ -42,6 +42,15 @@ namespace SSWindows.ViewModels
             else
             {
                 await new MessageDialog("your changes have been saved", "Success").ShowAsync();
+                if (NavigationService.CanGoBack())
+                {
+                    NavigationService.GoBack();
+                }
+                else
+                {
+                    NavigationService.ClearHistory();
+                    NavigationService.Navigate(App.Experiences.Home.ToString(), null);
+                }
             }
         }
     }
