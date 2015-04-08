@@ -41,7 +41,7 @@ namespace SSWindows.ViewModels
             }
             else
             {
-                await new MessageDialog("your changes have been saved", "Success").ShowAsync();
+                await new MessageDialog("your changes have been saved, if you change your email address, you need to check your email for verification", "Success").ShowAsync();
                 if (NavigationService.CanGoBack())
                 {
                     NavigationService.GoBack();

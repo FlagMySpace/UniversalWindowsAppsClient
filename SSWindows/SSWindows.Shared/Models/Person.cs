@@ -64,6 +64,11 @@ namespace SSWindows.Models
                 SetProperty(ref _mEmail, value);
             }
         }
+        
+        public bool IsEmailVerified
+        {
+            get { return ParseUser.CurrentUser.Get<bool>("emailVerified"); }
+        }
 
         public async Task<string> Register()
         {

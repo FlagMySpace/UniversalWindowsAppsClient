@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\IError.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PageBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibility.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IForgotPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILoginPageViewModel.cs" />
@@ -32,7 +33,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ProfilePageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Converters\" />
     <Folder Include="$(MSBuildThisFileDirectory)DesignTime\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
