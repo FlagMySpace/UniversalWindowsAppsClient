@@ -23,10 +23,9 @@ using SSWindows.Interfaces;
 
 namespace SSWindows.Views
 {
-    public sealed partial class ProfilePage : PageBase
+    public sealed partial class ProfilePage : PageBasePhone
     {
         private IProfilePageViewModel _profilePageViewModel;
-        private StatusBarProgressIndicator _progressbar;
 
         public ProfilePage()
         {
@@ -41,14 +40,7 @@ namespace SSWindows.Views
             ButtonSave.IsEnabled = false;
             await _profilePageViewModel.UpdateProfile(TextBoxOldUsername.Text, PasswordBoxOld.Password);
             ButtonSave.IsEnabled = true;
-            await _progressbar.HideAsync();
-        }
-
-        private async Task ShowProgressBar(string text)
-        {
-            _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            _progressbar.Text = text;
-            await _progressbar.ShowAsync();
+            await HideProgressBar();
         }
     }
 }

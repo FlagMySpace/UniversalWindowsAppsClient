@@ -28,10 +28,9 @@ namespace SSWindows.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ForgotPage : PageBase
+    public sealed partial class ForgotPage : PageBasePhone
     {
         private IForgotPageViewModel _forgotPageViewModel;
-        private StatusBarProgressIndicator _progressbar;
 
         public ForgotPage()
         {
@@ -49,15 +48,8 @@ namespace SSWindows.Views
                 ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = false;
                 await _forgotPageViewModel.SendRequest(TextBoxEmail.Text);
                 ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = true;
-                await _progressbar.HideAsync();
+                await HideProgressBar();
             }
-        }
-
-        private async Task ShowProgressBar(string text)
-        {
-            _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            _progressbar.Text = text;
-            await _progressbar.ShowAsync();
         }
     }
 }

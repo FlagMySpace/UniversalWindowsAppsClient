@@ -16,10 +16,9 @@ namespace SSWindows.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class LoginPage : PageBase
+    public sealed partial class LoginPage : PageBasePhone
     {
         private ILoginPageViewModel _loginPageViewModel;
-        private StatusBarProgressIndicator _progressbar;
 
         public LoginPage()
         {
@@ -36,14 +35,7 @@ namespace SSWindows.Views
             await ShowProgressBar("Checking credential...");
             await _loginPageViewModel.Login();
             ButtonLogin.IsEnabled = true;
-            await _progressbar.HideAsync();
-        }
-
-        private async Task ShowProgressBar(string text)
-        {
-            _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            _progressbar.Text = text;
-            await _progressbar.ShowAsync();
+            await HideProgressBar();
         }
 
         private async void ButtonRegister_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -52,7 +44,7 @@ namespace SSWindows.Views
             await ShowProgressBar("Creating credential...");
             await _loginPageViewModel.Register();
             ButtonRegister.IsEnabled = true;
-            await _progressbar.HideAsync();
+            await HideProgressBar();
         }
 
         private void HyperlinkButtonForgot_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

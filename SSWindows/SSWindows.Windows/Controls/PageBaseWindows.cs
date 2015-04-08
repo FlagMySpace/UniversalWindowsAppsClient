@@ -6,10 +6,7 @@ using Microsoft.Practices.Prism.Mvvm;
 
 namespace SSWindows.Controls
 {
-    public abstract class PageBase : Page, IView
+    public abstract partial class PageBaseWindows : PageBase, IView
     {
-        public abstract Task ShowProgressBar(string text);
-
-        public abstract Task HideProgressBar();
     }
 }

@@ -21,6 +21,12 @@ namespace SSWindows.ViewModels
 
         public INavigationService NavigationService { get; set; }
 
+        public IView View
+        {
+            get;
+            set;
+        }
+
         public string Email { get; set; }
 
         public async Task<bool> ValidateEmail(string email)

@@ -1,4 +1,4 @@
-﻿<controls:PageBase
+﻿<controls:PageBasePhone
     x:Class="SSWindows.Views.HomePage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,18 +8,22 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     xmlns:prism="using:Microsoft.Practices.Prism.Mvvm"
-    xmlns:designTime="using:SSWindows.DesignTime"
     prism:ViewModelLocator.AutoWireViewModel="True"
-    xmlns:controls="using:SSWindows.Controls">
+    xmlns:controls="using:SSWindows.Controls"
+    xmlns:viewModels="using:SSWindows.ViewModels">
 
+    <d:Page.DataContext>
+        <viewModels:HomePageViewModel />
+    </d:Page.DataContext>
+    
     <Page.BottomAppBar>
         <CommandBar>
             <CommandBar.PrimaryCommands>
                 <AppBarButton Label="Like" Icon="Like" />
             </CommandBar.PrimaryCommands>
             <CommandBar.SecondaryCommands>
-                <AppBarButton x:Name="AppBarProfil" Label="profil" Click="AppBarProfil_Click"/>
-                <AppBarButton x:Name="AppBarLogout" Label="logout" Click="AppBarLogout_Click" />
+                <AppBarButton x:Name="AppBarLog" Label="{Binding LogText}" Click="AppBarLog_Click" />
+                <AppBarButton x:Name="AppBarProfil" Label="profil" Visibility="{Binding IsLoggedIn}" Click="AppBarProfil_Click"/>
             </CommandBar.SecondaryCommands>
         </CommandBar>
     </Page.BottomAppBar>
@@ -41,4 +45,4 @@
 
         </Grid>
     </Grid>
-</controls:PageBase>
+</controls:PageBasePhone>

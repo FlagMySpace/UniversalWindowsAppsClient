@@ -31,6 +31,8 @@ namespace SSWindows.ViewModels
 
         public INavigationService NavigationService { get; set; }
 
+        public IView View { get; set; }
+
         public Person Person { get; set; }
 
         public async Task Login()

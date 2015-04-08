@@ -13,5 +13,6 @@ namespace SSWindows.Interfaces
         Person Person { get; set; }
         Task Login();
         Task Register();
+        INavigationService NavigationService { get; set; }
     }
 }
