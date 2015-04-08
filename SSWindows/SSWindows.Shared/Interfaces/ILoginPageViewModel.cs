@@ -6,5 +6,6 @@ namespace SSWindows.Interfaces
     {
         Task Login();
         Task Register();
+        ILoginPage LoginPage { get; set; }
     }
 }

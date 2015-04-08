@@ -19,3 +19,14 @@ namespace SSWindows.Interfaces
         Task HideUpdateProgress();
     }
 }
+
+namespace SSWindows.Interfaces
+{
+    public interface ILoginPage
+    {
+        Task ShowLoginProgress();
+        Task ShowRegisterProgress();
+        Task HideLoginProgress();
+        Task HideRegisterProgress();
+    }
+}

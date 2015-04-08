@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Navigation;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Parse;
@@ -20,6 +22,24 @@ namespace SSWindows.ViewModels
         public ProfilePageViewModel()
         {
             MapParseToUser();
+        }
+
+        public override async void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode, Dictionary<string, object> viewModelState)
+        {
+            if (ParseUser.CurrentUser == null)
+            {
+                await new MessageDialog("please login first before updating your profile", "Not Logged In").ShowAsync();
+                if (NavigationService.CanGoBack())
+                {
+                    NavigationService.GoBack();
+                }
+                else
+                {
+                    NavigationService.ClearHistory();
+                    NavigationService.Navigate(App.Experiences.Home.ToString(), null);
+                }
+            }
+            base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
         }
 
         public IProfilePage ProfilePage { get; set; }

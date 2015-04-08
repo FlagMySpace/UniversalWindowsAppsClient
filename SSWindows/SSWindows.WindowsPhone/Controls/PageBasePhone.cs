@@ -10,9 +10,13 @@ namespace SSWindows.Controls
     {
         private StatusBarProgressIndicator _progressbar;
 
-        public override async Task ShowProgressBar(string text)
+        protected PageBasePhone()
         {
             _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+        }
+
+        public override async Task ShowProgressBar(string text)
+        {
             await _progressbar.HideAsync();
             _progressbar.Text = text;
             await _progressbar.ShowAsync();

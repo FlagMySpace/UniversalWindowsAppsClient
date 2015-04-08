@@ -27,19 +27,24 @@ namespace SSWindows.ViewModels
         public string Password { get; set; }
         public string Username { get; set; }
         public string ConfirmPassword { get; set; }
+        public ILoginPage LoginPage { get; set; }
         public INavigationService NavigationService { get; set; }
 
         public async Task Login()
         {
             try
             {
+                ValidateUsername();
+                ValidatePassword();
+                await LoginPage.ShowLoginProgress();
                 await ParseUser.LogInAsync(Username, Password);
             }
-            catch (ParseException e)
+            catch (Exception e)
             {
                 Error.CaptureError(e);
             }
 
+            await LoginPage.HideLoginProgress();
             await Error.InvokeError();
 
             if (ParseUser.CurrentUser != null)
@@ -59,22 +64,30 @@ namespace SSWindows.ViewModels
 
         public async Task Register()
         {
-            var user = new ParseUser
-            {
-                Username = Username,
-                Password = Password,
-                Email = Email
-            };
-
             try
             {
+                ValidateUsername();
+                ValidatePassword();
+                ValidatePasswordMatch();
+                ValidateEmail();
+
+                await LoginPage.ShowRegisterProgress();
+
+                var user = new ParseUser
+                {
+                    Username = Username,
+                    Password = Password,
+                    Email = Email
+                };
+
                 await user.SignUpAsync();
             }
-            catch (ParseException e)
+            catch (Exception e)
             {
                 Error.CaptureError(e);
             }
 
+            await LoginPage.HideRegisterProgress();
             await Error.InvokeError();
 
             if (ParseUser.CurrentUser != null)
@@ -83,6 +96,38 @@ namespace SSWindows.ViewModels
                     String.Format(
                         "registration success, please verify your email address by checking your inbox at {0}",
                         Email), "Success").ShowAsync();
+            }
+        }
+
+        private void ValidateUsername()
+        {
+            if (String.IsNullOrWhiteSpace(Username))
+            {
+                throw new Exception("Username must not empty");
+            }
+        }
+
+        private void ValidatePassword()
+        {
+            if (String.IsNullOrWhiteSpace(Password))
+            {
+                throw new Exception("Password must not empty");
+            }
+        }
+
+        private void ValidatePasswordMatch()
+        {
+            if (!String.IsNullOrWhiteSpace(Password) && !Password.Equals(ConfirmPassword))
+            {
+                throw new Exception("Password mismatch");
+            }
+        }
+
+        private void ValidateEmail()
+        {
+            if (String.IsNullOrWhiteSpace(Email))
+            {
+                throw new Exception("Email must not empty");
             }
         }
     }

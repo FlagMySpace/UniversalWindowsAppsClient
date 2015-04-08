@@ -41,7 +41,7 @@
                                      Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <PasswordBox PlaceholderText="confirm password" 
                                      Password="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBlock Text="Please retype your current password. Keep in mind that if you failed loging in we will automatically log you out for security concern." 
+                        <TextBlock Text="Please retype your current password for security concern." 
                                    TextWrapping="WrapWholeWords" 
                                    FontSize="{StaticResource TextStyleMediumFontSize}" />
                         <PasswordBox x:Name="PasswordBoxOld" PlaceholderText="current password" />
