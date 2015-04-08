@@ -19,16 +19,7 @@ namespace SSWindows.Views
         {
             InitializeComponent();
             _homePageViewModel = DataContext as IHomePageViewModel;
-            if (_homePageViewModel != null) _homePageViewModel.ViewHomePage = this;
-        }
-
-        private async Task Logout(IUICommand command)
-        {
-            var progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
-            progressbar.Text = "Clearing your credential...";
-            await progressbar.ShowAsync();
-            await _homePageViewModel.Logout();
-            await progressbar.HideAsync();
+            if (_homePageViewModel != null) _homePageViewModel.HomePage = this;
         }
 
         private void AppBarProfil_Click(object sender, RoutedEventArgs e)
@@ -36,15 +27,26 @@ namespace SSWindows.Views
             _homePageViewModel.NavigationService.Navigate(App.Experiences.Profile.ToString(), null);
         }
 
-        private void AppBarLog_Click(object sender, RoutedEventArgs e)
+        private async void AppBarLog_Click(object sender, RoutedEventArgs e)
         {
             if (ParseUser.CurrentUser != null)
             {
+                await _homePageViewModel.Logout();
             }
             else
             {
                 _homePageViewModel.NavigationService.Navigate(App.Experiences.Login.ToString(), null);
             }
+        }
+
+        public async Task ShowLogoutProgressBar()
+        {
+            await ShowProgressBar("Clearing your credential...");
+        }
+
+        public async Task HideLogoutProgressBar()
+        {
+            await HideProgressBar();
         }
     }
 }

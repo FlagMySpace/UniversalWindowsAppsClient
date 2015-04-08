@@ -9,6 +9,6 @@ namespace SSWindows.Interfaces
     public interface IHomePageViewModel : IViewModel
     {
         Task Logout();
-        IHomePage ViewHomePage { get; set; }
+        IHomePage HomePage { get; set; }
     }
 }

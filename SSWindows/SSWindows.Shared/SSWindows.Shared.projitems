@@ -18,6 +18,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IForgotPageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IProfilePageViewModel.cs" />

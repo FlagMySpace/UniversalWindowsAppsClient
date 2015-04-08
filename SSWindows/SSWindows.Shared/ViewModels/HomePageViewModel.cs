@@ -27,24 +27,13 @@ namespace SSWindows.ViewModels
 
         public async Task Logout()
         {
-            try
-            {
-                await ParseUser.LogOutAsync();
-                NavigationService.ClearHistory();
-                NavigationService.Navigate(App.Experiences.Login.ToString(), null);
-            }
-            catch (ParseException ex)
-            {
-                Error.CaptureError(ex);
-            }
-
-            await Error.InvokeError();
+            await LogoutDialog();
         }
 
         public IEventAggregator EventAggregator { get; set; }
         public IError Error { get; set; }
         public INavigationService NavigationService { get; set; }
-        public IHomePage ViewHomePage { get; set; }
+        public IHomePage HomePage { get; set; }
 
         public string LogText
         {
@@ -70,7 +59,7 @@ namespace SSWindows.ViewModels
             }
         }
 
-        public async void LogoutDialog()
+        public async Task LogoutDialog()
         {
             var dialog = new MessageDialog("do you want to logout?", "Confirmation");
             dialog.Commands.Add(new UICommand("Yes", async command => await Logout(command)));
@@ -82,7 +71,20 @@ namespace SSWindows.ViewModels
 
         private async Task Logout(IUICommand command)
         {
-            await Logout();
+            await HomePage.ShowLogoutProgressBar();
+            try
+            {
+                await ParseUser.LogOutAsync();
+                NavigationService.ClearHistory();
+                NavigationService.Navigate(App.Experiences.Login.ToString(), null);
+            }
+            catch (ParseException ex)
+            {
+                Error.CaptureError(ex);
+            }
+
+            await Error.InvokeError();
+            await HomePage.HideLogoutProgressBar();
         }
     }
 }
