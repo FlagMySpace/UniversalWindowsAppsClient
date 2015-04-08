@@ -34,8 +34,6 @@ namespace SSWindows.ViewModels
         {
             try
             {
-                ValidateUsername();
-                ValidatePassword();
                 await LoginPage.ShowLoginProgress();
                 await ParseUser.LogInAsync(Username, Password);
             }
@@ -66,8 +64,6 @@ namespace SSWindows.ViewModels
         {
             try
             {
-                ValidateUsername();
-                ValidatePassword();
                 ValidatePasswordMatch();
                 ValidateEmail();
 
@@ -99,27 +95,11 @@ namespace SSWindows.ViewModels
             }
         }
 
-        private void ValidateUsername()
-        {
-            if (String.IsNullOrWhiteSpace(Username))
-            {
-                throw new Exception("Username must not empty");
-            }
-        }
-
-        private void ValidatePassword()
-        {
-            if (String.IsNullOrWhiteSpace(Password))
-            {
-                throw new Exception("Password must not empty");
-            }
-        }
-
         private void ValidatePasswordMatch()
         {
             if (!String.IsNullOrWhiteSpace(Password) && !Password.Equals(ConfirmPassword))
             {
-                throw new Exception("Password mismatch");
+                throw new Exception("password mismatch");
             }
         }
 
@@ -127,7 +107,7 @@ namespace SSWindows.ViewModels
         {
             if (String.IsNullOrWhiteSpace(Email))
             {
-                throw new Exception("Email must not empty");
+                throw new Exception("email address field is required");
             }
         }
     }
