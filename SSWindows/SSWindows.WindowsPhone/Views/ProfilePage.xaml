@@ -25,17 +25,29 @@
             <PivotItem Header="profile">
                 <ScrollViewer>
                     <StackPanel>
-                        <TextBlock Text="Edit yout profile" FontSize="{StaticResource TextStyleMediumFontSize}"/>
-                        <TextBox PlaceholderText="username" Text="{Binding Person.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <PasswordBox PlaceholderText="change password" Password="{Binding Person.Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <PasswordBox PlaceholderText="confirm password" Password="{Binding Person.ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        <TextBox PlaceholderText="email" Text="{Binding Person.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        <TextBlock Text="Your email is unverified. Please note that if you lose your login access while unverified, you will account will be lost forever." Visibility="{Binding Person.IsEmailVerified, Converter={StaticResource BoolToVisibility}}" FontSize="{StaticResource TextStyleMediumFontSize}" TextWrapping="WrapWholeWords" Foreground="{ThemeResource PhoneAccentBrush}"/>
-                        <Button Content="resend email verification" FontSize="{StaticResource TextStyleMediumFontSize}" Visibility="{Binding Person.IsEmailVerified, Converter={StaticResource BoolToVisibility}}"/>
-                        <TextBlock Text="Please retype your current username and current password. Keep in mind that if you failed loging in we will automatically log you out for security concern." TextWrapping="WrapWholeWords" FontSize="{StaticResource TextStyleMediumFontSize}" />
-                        <TextBox x:Name="TextBoxOldUsername" PlaceholderText="current username" />
+                        <TextBox PlaceholderText="username" 
+                                 Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBox PlaceholderText="email" 
+                                 Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <TextBlock Text="Your email is unverified. Please note that if you lose your login access while unverified, your account will be lost forever." 
+                                   Visibility="{Binding IsEmailVerified, Converter={StaticResource BoolToVisibility}}" 
+                                   FontSize="{StaticResource TextStyleMediumFontSize}" 
+                                   TextWrapping="WrapWholeWords" 
+                                   Foreground="{ThemeResource PhoneAccentBrush}"/>
+                        <Button x:Name="ButtonResend" Content="resend email verification" 
+                                FontSize="{StaticResource TextStyleMediumFontSize}" 
+                                Visibility="{Binding IsEmailVerified, Converter={StaticResource BoolToVisibility}}"/>
+                        <PasswordBox PlaceholderText="change password" 
+                                     Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <PasswordBox PlaceholderText="confirm password" 
+                                     Password="{Binding ConfirmPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        <TextBlock Text="Please retype your current password. Keep in mind that if you failed loging in we will automatically log you out for security concern." 
+                                   TextWrapping="WrapWholeWords" 
+                                   FontSize="{StaticResource TextStyleMediumFontSize}" />
                         <PasswordBox x:Name="PasswordBoxOld" PlaceholderText="current password" />
-                        <Button x:Name="ButtonSave" Content="save" HorizontalAlignment="Stretch" Click="ButtonSave_Click"  />
+                        <Button x:Name="ButtonSave" Content="save" 
+                                HorizontalAlignment="Stretch" 
+                                Click="ButtonSave_Click"  />
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

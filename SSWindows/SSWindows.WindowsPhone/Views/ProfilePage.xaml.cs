@@ -23,7 +23,7 @@ using SSWindows.Interfaces;
 
 namespace SSWindows.Views
 {
-    public sealed partial class ProfilePage : PageBasePhone
+    public sealed partial class ProfilePage : PageBasePhone, IProfilePage
     {
         private IProfilePageViewModel _profilePageViewModel;
 
@@ -31,16 +31,25 @@ namespace SSWindows.Views
         {
             InitializeComponent();
 
-            _profilePageViewModel = DataContext as IProfilePageViewModel;
+            _profilePageViewModel = (IProfilePageViewModel)DataContext;
+            _profilePageViewModel.ProfilePage = this;
         }
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            await ShowProgressBar("updating your profile...");
-            ButtonSave.IsEnabled = false;
-            await _profilePageViewModel.UpdateProfile(TextBoxOldUsername.Text, PasswordBoxOld.Password);
-            ButtonSave.IsEnabled = true;
+            await _profilePageViewModel.UpdateProfile(PasswordBoxOld.Password);
+        }
+
+        public async Task HideUpdateProgress()
+        {
+            ButtonSave.IsEnabled = ButtonResend.IsEnabled = true;
             await HideProgressBar();
+        }
+
+        public async Task ShowUpdateProgress()
+        {
+            await ShowProgressBar("updating your profile...");
+            ButtonSave.IsEnabled = ButtonResend.IsEnabled = false;
         }
     }
 }

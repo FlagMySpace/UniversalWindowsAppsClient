@@ -1,10 +1,21 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.Practices.Prism.Mvvm;
 
 namespace SSWindows.Interfaces
 {
     public interface IHomePage
     {
-        Task ShowLogoutProgressBar();
-        Task HideLogoutProgressBar();
+        Task ShowLogoutProgress();
+        Task HideLogoutProgress();
+    }
+}
+
+
+namespace SSWindows.Interfaces
+{
+    public interface IProfilePage
+    {
+        Task ShowUpdateProgress();
+        Task HideUpdateProgress();
     }
 }

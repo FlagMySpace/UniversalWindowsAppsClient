@@ -71,7 +71,7 @@ namespace SSWindows.ViewModels
 
         private async Task Logout(IUICommand command)
         {
-            await HomePage.ShowLogoutProgressBar();
+            await HomePage.ShowLogoutProgress();
             try
             {
                 NavigationService.ClearHistory();
@@ -84,7 +84,7 @@ namespace SSWindows.ViewModels
             }
 
             await Error.InvokeError();
-            await HomePage.HideLogoutProgressBar();
+            await HomePage.HideLogoutProgress();
         }
     }
 }

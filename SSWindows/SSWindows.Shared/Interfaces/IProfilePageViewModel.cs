@@ -7,6 +7,7 @@ namespace SSWindows.Interfaces
 {
     public interface IProfilePageViewModel
     {
-        Task UpdateProfile(string oldUsername, string oldPassword);
+        Task UpdateProfile(string currentPassword);
+        IProfilePage ProfilePage { get; set; }
     }
 }

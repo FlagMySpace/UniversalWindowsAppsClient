@@ -39,14 +39,14 @@ namespace SSWindows.Views
             }
         }
 
-        public async Task ShowLogoutProgressBar()
-        {
-            await ShowProgressBar("Clearing your credential...");
-        }
-
-        public async Task HideLogoutProgressBar()
+        public async Task HideLogoutProgress()
         {
             await HideProgressBar();
+        }
+
+        public async Task ShowLogoutProgress()
+        {
+            await ShowProgressBar("Clearing your credential...");
         }
     }
 }

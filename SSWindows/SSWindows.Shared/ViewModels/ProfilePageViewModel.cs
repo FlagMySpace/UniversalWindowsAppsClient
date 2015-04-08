@@ -1,39 +1,59 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Microsoft.Practices.Prism.Mvvm;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
 using Parse;
 using SSWindows.Interfaces;
-using SSWindows.Models;
 
 namespace SSWindows.ViewModels
 {
     public class ProfilePageViewModel : ViewModel, IProfilePageViewModel
     {
-        public ProfilePageViewModel(INavigationService navigationService, IPerson person)
+        public ProfilePageViewModel(INavigationService navigationService, IError error) : this()
         {
-            Person = person;
             NavigationService = navigationService;
+            Error = error;
         }
 
         public ProfilePageViewModel()
         {
+            MapParseToUser();
         }
 
-        public IPerson Person { get; set; }
+        public IProfilePage ProfilePage { get; set; }
+        public IError Error { get; set; }
         public INavigationService NavigationService { get; set; }
-
-        public async Task UpdateProfile(string oldUsername, string oldPassword)
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Username { get; set; }
+        public string ConfirmPassword { get; set; }
+        public bool IsEmailVerified
         {
-            var error = await Person.Update(oldUsername, oldPassword);
+            get { return ParseUser.CurrentUser.Get<bool>("emailVerified"); }
+        }
 
-            if (error.Any())
+        public async Task UpdateProfile(string currentPassword)
+        {
+            if (!await ValidatePassword()) return;
+            await ProfilePage.ShowUpdateProgress();
+            await UpdateSave(currentPassword);
+            await VerifyUser();
+        }
+
+        private async Task<bool> ValidatePassword()
+        {
+            if (!String.IsNullOrWhiteSpace(Password) && !Password.Equals(ConfirmPassword))
             {
-                await new MessageDialog(error, "Error").ShowAsync();
+                await ProfilePage.HideUpdateProgress();
+                await new MessageDialog("new password and confirm password are mismatch", "Error").ShowAsync();
+                return false;
             }
+            return true;
+        }
 
+        private async Task VerifyUser()
+        {
             if (ParseUser.CurrentUser == null)
             {
                 NavigationService.ClearHistory();
@@ -41,16 +61,41 @@ namespace SSWindows.ViewModels
             }
             else
             {
-                await new MessageDialog("your changes have been saved, if you change your email address, you need to check your email for verification", "Success").ShowAsync();
-                if (NavigationService.CanGoBack())
-                {
-                    NavigationService.GoBack();
-                }
-                else
-                {
-                    NavigationService.ClearHistory();
-                    NavigationService.Navigate(App.Experiences.Home.ToString(), null);
-                }
+                await ProfilePage.HideUpdateProgress();
+                await
+                    new MessageDialog(
+                        "your changes have been saved, if you change your email address, you need to check your email for verification",
+                        "Success").ShowAsync();
+            }
+        }
+
+        private async Task UpdateSave(string currentPassword)
+        {
+            try
+            {
+                await ParseUser.LogInAsync(ParseUser.CurrentUser.Username, currentPassword);
+                if (!String.IsNullOrWhiteSpace(Username)) ParseUser.CurrentUser.Username = Username;
+                if (!String.IsNullOrWhiteSpace(Password)) ParseUser.CurrentUser.Password = Password;
+                if (!String.IsNullOrWhiteSpace(Email)) ParseUser.CurrentUser.Email = Email;
+                await ParseUser.CurrentUser.SaveAsync();
+                MapParseToUser();
+            }
+            catch (ParseException e)
+            {
+                Error.CaptureError(e);
+            }
+
+            await ProfilePage.HideUpdateProgress();
+            await Error.InvokeError();
+        }
+
+        private void MapParseToUser()
+        {
+            var user = ParseUser.CurrentUser;
+            if (user != null)
+            {
+                Username = user.Username;
+                Email = user.Email;
             }
         }
     }
