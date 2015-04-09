@@ -24,7 +24,53 @@ namespace SSWindows.ViewModels
             MapParseToUser();
         }
 
-        public override async void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode, Dictionary<string, object> viewModelState)
+        public IError Error { get; set; }
+        public INavigationService NavigationService { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Username { get; set; }
+        public string ConfirmPassword { get; set; }
+
+        public bool IsEmailVerified
+        {
+            get { return ParseUser.CurrentUser.Get<bool>("emailVerified"); }
+        }
+
+        public async Task ResendEmailVerification()
+        {
+            try
+            {
+                await ProfilePage.ShowProgress("Sending email verification...");
+                var email = ParseUser.CurrentUser.Email;
+                ParseUser.CurrentUser.Email = "";
+                await ParseUser.CurrentUser.SaveAsync();
+                ParseUser.CurrentUser.Email = email;
+                await ParseUser.CurrentUser.SaveAsync();
+                await ProfilePage.HideProgress();
+                await
+                    new MessageDialog(string.Format("verification email has been sent to {0}", email), "Sent").ShowAsync
+                        ();
+            }
+            catch (Exception e)
+            {
+                Error.CaptureError(e);
+            }
+
+            await Error.InvokeError();
+        }
+
+        public IProfilePage ProfilePage { get; set; }
+
+        public async Task UpdateProfile(string currentPassword)
+        {
+            if (!await ValidatePassword()) return;
+            await ProfilePage.ShowProgress("Updating profile...");
+            await UpdateSave(currentPassword);
+            await VerifyUser();
+        }
+
+        public override async void OnNavigatedTo(object navigationParameter, NavigationMode navigationMode,
+            Dictionary<string, object> viewModelState)
         {
             if (ParseUser.CurrentUser == null)
             {
@@ -42,31 +88,11 @@ namespace SSWindows.ViewModels
             base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
         }
 
-        public IProfilePage ProfilePage { get; set; }
-        public IError Error { get; set; }
-        public INavigationService NavigationService { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Username { get; set; }
-        public string ConfirmPassword { get; set; }
-        public bool IsEmailVerified
-        {
-            get { return ParseUser.CurrentUser.Get<bool>("emailVerified"); }
-        }
-
-        public async Task UpdateProfile(string currentPassword)
-        {
-            if (!await ValidatePassword()) return;
-            await ProfilePage.ShowUpdateProgress();
-            await UpdateSave(currentPassword);
-            await VerifyUser();
-        }
-
         private async Task<bool> ValidatePassword()
         {
             if (!String.IsNullOrWhiteSpace(Password) && !Password.Equals(ConfirmPassword))
             {
-                await ProfilePage.HideUpdateProgress();
+                await ProfilePage.HideProgress();
                 await new MessageDialog("new password and confirm password are mismatch", "Error").ShowAsync();
                 return false;
             }
@@ -93,7 +119,7 @@ namespace SSWindows.ViewModels
                 await ParseUser.CurrentUser.SaveAsync();
                 MapParseToUser();
 
-                await ProfilePage.HideUpdateProgress();
+                await ProfilePage.HideProgress();
                 await
                     new MessageDialog(
                         "your changes have been saved, if you change your email address, you need to check your email for verification",
@@ -104,7 +130,7 @@ namespace SSWindows.ViewModels
                 Error.CaptureError(e);
             }
 
-            await ProfilePage.HideUpdateProgress();
+            await ProfilePage.HideProgress();
             await Error.InvokeError();
         }
 

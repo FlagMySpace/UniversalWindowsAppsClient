@@ -15,8 +15,8 @@ namespace SSWindows.Interfaces
 {
     public interface IProfilePage
     {
-        Task ShowUpdateProgress();
-        Task HideUpdateProgress();
+        Task ShowProgress(string text);
+        Task HideProgress();
     }
 }
 

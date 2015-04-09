@@ -36,7 +36,8 @@
                                    Foreground="{ThemeResource PhoneAccentBrush}"/>
                         <Button x:Name="ButtonResend" Content="resend email verification" 
                                 FontSize="{StaticResource TextStyleMediumFontSize}" 
-                                Visibility="{Binding IsEmailVerified, Converter={StaticResource BoolToVisibility}}"/>
+                                Visibility="{Binding IsEmailVerified, Converter={StaticResource BoolToVisibility}}"
+                                Tapped="ButtonResend_OnTapped"/>
                         <PasswordBox PlaceholderText="change password" 
                                      Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         <PasswordBox PlaceholderText="confirm password" 

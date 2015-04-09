@@ -8,6 +8,7 @@ namespace SSWindows.Interfaces
     public interface IProfilePageViewModel
     {
         Task UpdateProfile(string currentPassword);
+        Task ResendEmailVerification();
         IProfilePage ProfilePage { get; set; }
     }
 }

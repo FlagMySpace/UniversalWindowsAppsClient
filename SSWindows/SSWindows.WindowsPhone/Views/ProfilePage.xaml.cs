@@ -1,21 +1,6 @@
-﻿using SSWindows.Common;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
+﻿using System.Threading.Tasks;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
 
@@ -25,14 +10,26 @@ namespace SSWindows.Views
 {
     public sealed partial class ProfilePage : PageBasePhone, IProfilePage
     {
-        private IProfilePageViewModel _profilePageViewModel;
+        private readonly IProfilePageViewModel _profilePageViewModel;
 
         public ProfilePage()
         {
             InitializeComponent();
 
-            _profilePageViewModel = (IProfilePageViewModel)DataContext;
+            _profilePageViewModel = (IProfilePageViewModel) DataContext;
             _profilePageViewModel.ProfilePage = this;
+        }
+
+        public async Task HideProgress()
+        {
+            ButtonSave.IsEnabled = ButtonResend.IsEnabled = true;
+            await HideProgressBar();
+        }
+
+        public async Task ShowProgress(string text)
+        {
+            await ShowProgressBar(text);
+            ButtonSave.IsEnabled = ButtonResend.IsEnabled = false;
         }
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
@@ -40,16 +37,9 @@ namespace SSWindows.Views
             await _profilePageViewModel.UpdateProfile(PasswordBoxOld.Password);
         }
 
-        public async Task HideUpdateProgress()
+        private void ButtonResend_OnTapped(object sender, TappedRoutedEventArgs e)
         {
-            ButtonSave.IsEnabled = ButtonResend.IsEnabled = true;
-            await HideProgressBar();
-        }
-
-        public async Task ShowUpdateProgress()
-        {
-            await ShowProgressBar("updating your profile...");
-            ButtonSave.IsEnabled = ButtonResend.IsEnabled = false;
+            _profilePageViewModel.ResendEmailVerification();
         }
     }
 }
