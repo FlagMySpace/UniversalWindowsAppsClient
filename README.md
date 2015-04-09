@@ -1,6 +1,6 @@
-# Flag My Spave - Universal Windows Apps Client
+# Flag My Space - Universal Windows Apps Client
 
-This is an online repository for Flag My Space team from [Start Surabaya][ss] that focusing its startup for online real-time proximity travelling application.
+This is an open source repository for [Flag My Space][fms] team from [Start Surabaya][ss] that focusing its startup for online real-time proximity travelling application.
 
 # How to Collaborate
 
@@ -30,4 +30,5 @@ This project is licensed using GNU GPL v2 unless otherwise noted. This license c
 [gpl]: https://github.com/FlagMySpace/UniversalWindowsAppsClient/blob/master/LICENSE
 [parse]:https://www.parse.com/
 [pwrt]:https://prismwindowsruntime.codeplex.com/
+[fms]:http://flagmy.space
 
