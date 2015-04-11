@@ -6,6 +6,7 @@ using Microsoft.Practices.Unity;
 using Parse;
 using SSWindows.Common;
 using SSWindows.Interfaces;
+using SSWindows.Models;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -31,6 +32,8 @@ namespace SSWindows
         public App()
         {
             InitializeComponent();
+
+            ParseObject.RegisterSubclass<Place>();
             ParseClient.Initialize("L3POUewF4K1RgkRtKcZTDLne4Zp2kCgwQUmeW0Ru",
                 "5qgD6FO6sAR4NWN5FehNtuaGBqHXIikQSg7yj1fu");
         }

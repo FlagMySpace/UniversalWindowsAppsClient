@@ -1,63 +1,76 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
 using Parse;
 using SSWindows.Common;
+using SSWindows.Converters;
 
 namespace SSWindows.Models
 {
+    [ParseClassName("Place")]
     public class Place : ParseObject
     {
+        [ParseFieldName("title")]
         public string Title
         {
-            get { return Get<string>("title"); }
-            set { this["title"] = value; }
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
         }
 
+        [ParseFieldName("originalPoster")]
         public ParseUser OriginalPoster
         {
-            get { return Get<ParseUser>("originalPoster"); }
-            set { this["originalPoster"] = value; }
+            get { return GetProperty<ParseUser>(); }
+            set { SetProperty(value); }
         }
 
+        [ParseFieldName("description")]
         public string Description
         {
-            get { return Get<string>("description"); } 
-            set { this["description"] = value; }
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
         }
 
+        [ParseFieldName("latitude")]
         public float Latitude
         {
-            get { return Get<float>("latitude"); }
-            set { this["latitude"] = value; }
+            get { return GetProperty<float>(); }
+            set { SetProperty(value); }
         }
 
+        [ParseFieldName("longitude")]
         public float Longitude
         {
-            get { return Get<float>("longitude"); }
-            set { this["longitude"] = value; }
+            get { return GetProperty<float>(); }
+            set { SetProperty(value); }
         }
 
+        [ParseFieldName("images")]
         public IList<ParseFile> Images {
-            get { return Get<IList<ParseFile>>("images"); }
+            get { return GetProperty<IList<ParseFile>>(); }
         }
 
+        [ParseFieldName("point")]
         public int Point
         {
-            get { return Get<int>("point"); }
+            get { return GetProperty<int>(); }
         }
 
+        [ParseFieldName("flag")]
         public int Flag
         {
             get
             {
-                return Get<int>("flag");
+                return GetProperty<int>();
             }
         }
 
-        public async Task VoteUp()
+        public async Task VoteUpAsync()
         {
             if (ParseUser.CurrentUser != null)
             {
@@ -91,7 +104,7 @@ namespace SSWindows.Models
             }
         }
 
-        public async Task VoteDown()
+        public async Task VoteDownAsync()
         {
             if (ParseUser.CurrentUser != null)
             {
@@ -126,7 +139,7 @@ namespace SSWindows.Models
             }
         }
 
-        public async Task FlagSpace()
+        public async Task FlagSpaceAsync()
         {
             Increment("flag");
 
@@ -145,7 +158,7 @@ namespace SSWindows.Models
             await SaveAsync();
         }
 
-        public async Task UnFlagSpace()
+        public async Task UnFlagSpaceAsync()
         {
             Increment("flag", -1);
 
@@ -157,6 +170,41 @@ namespace SSWindows.Models
                 userRelationFlag.Remove(ParseUser.CurrentUser);
             }
 
+            await SaveAsync();
+        }
+
+        private IList<string> _filesCache;
+
+        public Place()
+        {
+            _filesCache = new List<string>();
+        }
+
+        public async Task AddImageAsync(StorageFile image)
+        {
+            var path = await FileHelper.Instance.CopyAndAssignFilePathAsync(image);
+            var fileStream = await FileHelper.Instance.GetFileStreamFromFileAsync(path);
+            var file = new ParseFile(image.DisplayName, fileStream.AsStream());
+            _filesCache.Add(path);
+            Images.Add(file);
+        }
+
+        private async Task UploadImagesAsync()
+        {
+            foreach (var parseFile in Images)
+            {
+                await parseFile.SaveAsync();
+            }
+
+            foreach (var file in _filesCache)
+            {
+                await FileHelper.Instance.DeleteCopyAsync(file);
+            }
+        }
+
+        public async Task SavePlaceAsync()
+        {
+            await UploadImagesAsync();
             await SaveAsync();
         }
     }

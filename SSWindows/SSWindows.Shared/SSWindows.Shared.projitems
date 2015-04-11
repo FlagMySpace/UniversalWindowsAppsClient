@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\FileHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\ModelException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PageBase.cs" />
