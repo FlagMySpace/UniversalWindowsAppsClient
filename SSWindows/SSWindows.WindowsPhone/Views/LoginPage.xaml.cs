@@ -36,7 +36,7 @@ namespace SSWindows.Views
 
         private void HyperlinkButtonForgot_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            _loginPageViewModel.NavigationService.Navigate(App.Experiences.Forgot.ToString(), null);
+            _loginPageViewModel.NavigationService.Navigate(App.Pages.Forgot.ToString(), null);
         }
 
         private void ToggleControls(bool enabled)

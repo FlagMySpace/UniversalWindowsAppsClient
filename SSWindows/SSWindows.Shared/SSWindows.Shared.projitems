@@ -16,15 +16,20 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Common\ErrorHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Common\IError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ModelException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Controls\PageBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IError.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IForgotPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IForgotPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILoginPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ILoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHomePageViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IProfilePage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IProfilePageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Place.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ForgotPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginPageViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\HomePageViewModel.cs" />
@@ -33,7 +38,6 @@
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)DesignTime\" />
     <Folder Include="$(MSBuildThisFileDirectory)Events\" />
-    <Folder Include="$(MSBuildThisFileDirectory)Models\" />
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />
   </ItemGroup>
 </Project>

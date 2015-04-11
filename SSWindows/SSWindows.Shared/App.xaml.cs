@@ -5,6 +5,7 @@ using Microsoft.Practices.Prism.PubSubEvents;
 using Microsoft.Practices.Unity;
 using Parse;
 using SSWindows.Common;
+using SSWindows.Interfaces;
 
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
 
@@ -12,12 +13,17 @@ namespace SSWindows
 {
     public sealed partial class App : MvvmAppBase
     {
-        public enum Experiences
+        public enum Pages
         {
             Login,
             Forgot,
             Home,
             Profile
+        }
+
+        public enum Models
+        {
+            Place
         }
 
         private static readonly UnityContainer Container = new UnityContainer();
@@ -31,7 +37,7 @@ namespace SSWindows
 
         protected override Task OnLaunchApplicationAsync(LaunchActivatedEventArgs args)
         {
-            NavigationService.Navigate(Experiences.Home.ToString(), null);
+            NavigationService.Navigate(Pages.Home.ToString(), null);
             return Task.FromResult<object>(null);
         }
 

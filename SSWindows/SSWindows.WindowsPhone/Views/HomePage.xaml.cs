@@ -24,7 +24,7 @@ namespace SSWindows.Views
 
         private void AppBarProfil_Click(object sender, RoutedEventArgs e)
         {
-            _homePageViewModel.NavigationService.Navigate(App.Experiences.Profile.ToString(), null);
+            _homePageViewModel.NavigationService.Navigate(App.Pages.Profile.ToString(), null);
         }
 
         private async void AppBarLog_Click(object sender, RoutedEventArgs e)
@@ -35,7 +35,7 @@ namespace SSWindows.Views
             }
             else
             {
-                _homePageViewModel.NavigationService.Navigate(App.Experiences.Login.ToString(), null);
+                _homePageViewModel.NavigationService.Navigate(App.Pages.Login.ToString(), null);
             }
         }
 

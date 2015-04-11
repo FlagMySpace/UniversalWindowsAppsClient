@@ -99,7 +99,7 @@ namespace SSWindows.ViewModels
             if (ParseUser.CurrentUser == null)
             {
                 NavigationService.ClearHistory();
-                NavigationService.Navigate(App.Experiences.Login.ToString(), null);
+                NavigationService.Navigate(App.Pages.Login.ToString(), null);
             }
         }
 

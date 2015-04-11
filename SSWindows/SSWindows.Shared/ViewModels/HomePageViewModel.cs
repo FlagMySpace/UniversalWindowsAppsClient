@@ -73,7 +73,7 @@ namespace SSWindows.ViewModels
             try
             {
                 NavigationService.ClearHistory();
-                NavigationService.Navigate(App.Experiences.Login.ToString(), null);
+                NavigationService.Navigate(App.Pages.Login.ToString(), null);
                 await ParseUser.LogOutAsync();
             }
             catch (ParseException ex)

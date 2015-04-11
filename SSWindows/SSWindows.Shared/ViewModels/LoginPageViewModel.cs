@@ -56,7 +56,7 @@ namespace SSWindows.ViewModels
                     await dialog.ShowAsync();
                 }
                 NavigationService.ClearHistory();
-                NavigationService.Navigate(App.Experiences.Home.ToString(), null);
+                NavigationService.Navigate(App.Pages.Home.ToString(), null);
             }
         }
 
