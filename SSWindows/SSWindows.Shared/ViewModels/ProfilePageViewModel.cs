@@ -79,11 +79,6 @@ namespace SSWindows.ViewModels
                 {
                     NavigationService.GoBack();
                 }
-                else
-                {
-                    NavigationService.ClearHistory();
-                    NavigationService.Navigate(App.Experiences.Home.ToString(), null);
-                }
             }
             base.OnNavigatedTo(navigationParameter, navigationMode, viewModelState);
         }

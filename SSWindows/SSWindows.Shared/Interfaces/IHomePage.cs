@@ -30,3 +30,12 @@ namespace SSWindows.Interfaces
         Task HideRegisterProgress();
     }
 }
+
+namespace SSWindows.Interfaces
+{
+    public interface IForgotPage
+    {
+        Task ShowResetProgress();
+        Task HideResetProgress();
+    }
+}

@@ -6,6 +6,6 @@ namespace SSWindows.Common
     public interface IError
     {
         void CaptureError(Exception ex);
-        Task InvokeError();
+        Task<bool> InvokeError();
     }
 }

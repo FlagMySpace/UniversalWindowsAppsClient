@@ -17,13 +17,15 @@ namespace SSWindows.Common
             _capturedException = ExceptionDispatchInfo.Capture(ex);
         }
 
-        public async Task InvokeError()
+        public async Task<bool> InvokeError()
         {
             if (_capturedException != null)
             {
                 await new MessageDialog(_capturedException.SourceException.Message, "Error").ShowAsync();
                 _capturedException = null;
+                return true;
             }
+            return false;
         }
     }
 }

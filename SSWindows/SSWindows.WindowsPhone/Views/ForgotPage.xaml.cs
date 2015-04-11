@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Input;
+﻿using System.Threading.Tasks;
+using Windows.UI.Xaml.Input;
 using SSWindows.Controls;
 using SSWindows.Interfaces;
 
@@ -6,10 +7,7 @@ using SSWindows.Interfaces;
 
 namespace SSWindows.Views
 {
-    /// <summary>
-    ///     An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class ForgotPage : PageBasePhone
+    public sealed partial class ForgotPage : PageBasePhone, IForgotPage
     {
         private readonly IForgotPageViewModel _forgotPageViewModel;
 
@@ -17,20 +15,25 @@ namespace SSWindows.Views
         {
             InitializeComponent();
 
-            _forgotPageViewModel = DataContext as IForgotPageViewModel;
+            _forgotPageViewModel = (IForgotPageViewModel) DataContext;
+            _forgotPageViewModel.ForgotPage = this;
         }
 
         private async void ButtonSubmit_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var valid = await _forgotPageViewModel.ValidateEmail(TextBoxEmail.Text);
-            if (valid)
-            {
-                await ShowProgressBar("Resetting password...");
-                ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = false;
-                await _forgotPageViewModel.SendRequest(TextBoxEmail.Text);
-                ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = true;
-                await HideProgressBar();
-            }
+            await _forgotPageViewModel.SendRequest(TextBoxEmail.Text);
+        }
+
+        public async Task ShowResetProgress()
+        {
+            await ShowProgressBar("Resetting password...");
+            ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = false;
+        }
+
+        public async Task HideResetProgress()
+        {
+            ButtonSubmit.IsEnabled = TextBoxEmail.IsEnabled = true;
+            await HideProgressBar();
         }
     }
 }

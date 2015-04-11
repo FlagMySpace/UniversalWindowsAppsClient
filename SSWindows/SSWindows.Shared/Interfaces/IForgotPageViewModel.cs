@@ -10,6 +10,6 @@ namespace SSWindows.Interfaces
     {
         string Email { get; set; }
         Task SendRequest(string emailAddress);
-        Task<bool> ValidateEmail(string email);
+        IForgotPage ForgotPage { get; set; }
     }
 }
