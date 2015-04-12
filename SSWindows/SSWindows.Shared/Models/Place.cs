@@ -22,6 +22,41 @@ namespace SSWindows.Models
             set { SetProperty(value); }
         }
 
+        [ParseFieldName("address")]
+        public string Address
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("city")]
+        public string City
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("state")]
+        public string State
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("country")]
+        public string Country
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
+        [ParseFieldName("postalCode")]
+        public string PostalCode
+        {
+            get { return GetProperty<string>(); }
+            set { SetProperty(value); }
+        }
+
         [ParseFieldName("originalPoster")]
         public ParseUser OriginalPoster
         {
