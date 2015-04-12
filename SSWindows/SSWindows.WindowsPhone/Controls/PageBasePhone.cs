@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Microsoft.Practices.Prism.Mvvm;
@@ -12,7 +13,10 @@ namespace SSWindows.Controls
 
         protected PageBasePhone()
         {
-            _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            if (!DesignMode.DesignModeEnabled)
+            {
+                _progressbar = StatusBar.GetForCurrentView().ProgressIndicator;
+            }
         }
 
         public override async Task ShowProgressBar(string text)
