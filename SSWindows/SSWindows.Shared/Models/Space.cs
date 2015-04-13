@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
-using Windows.UI.Xaml.Media.Imaging;
 using Parse;
 using SSWindows.Common;
-using SSWindows.Converters;
 
 namespace SSWindows.Models
 {
-    [ParseClassName("Place")]
-    public class Place : ParseObject
+    [ParseClassName("Space")]
+    public class Space : ParseObject
     {
+        private readonly IList<string> _filesCache;
+
+        public Space()
+        {
+            _filesCache = new List<string>();
+        }
+
         [ParseFieldName("title")]
         public string Title
         {
@@ -86,7 +88,8 @@ namespace SSWindows.Models
         }
 
         [ParseFieldName("images")]
-        public IList<ParseFile> Images {
+        public IList<ParseFile> Images
+        {
             get { return GetProperty<IList<ParseFile>>(); }
         }
 
@@ -99,10 +102,7 @@ namespace SSWindows.Models
         [ParseFieldName("flag")]
         public int Flag
         {
-            get
-            {
-                return GetProperty<int>();
-            }
+            get { return GetProperty<int>(); }
         }
 
         public async Task VoteUpAsync()
@@ -206,13 +206,6 @@ namespace SSWindows.Models
             }
 
             await SaveAsync();
-        }
-
-        private IList<string> _filesCache;
-
-        public Place()
-        {
-            _filesCache = new List<string>();
         }
 
         public async Task AddImageAsync(StorageFile image)

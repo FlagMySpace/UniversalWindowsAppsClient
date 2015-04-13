@@ -86,9 +86,9 @@
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.Resources>
-                    <ItemsControl.DataContext>
-                        <Binding Source="{StaticResource PlaceDataSource}"/>
-                    </ItemsControl.DataContext>
+                	<d:DataContext>
+                		<Binding Source="{StaticResource PlaceDataSource}"/>
+                	</d:DataContext>
                     <ItemsControl.ItemTemplate>
                         <StaticResource ResourceKey="PlaceDataTemplate"/>
                     </ItemsControl.ItemTemplate>
