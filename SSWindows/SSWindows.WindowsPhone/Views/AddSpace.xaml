@@ -1,0 +1,76 @@
+﻿<Page
+    x:Class="SSWindows.Views.AddSpace"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SSWindows.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:common="using:SSWindows.Common"
+    mc:Ignorable="d"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid x:Name="LayoutRoot">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Title Panel -->
+        <StackPanel Grid.Row="0" Margin="19,0,0,0">
+            <TextBlock Text="NEW SPACE" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+        </StackPanel>
+
+        <!--TODO: Content should be placed within the following grid-->
+        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBox x:Name="TextBoxTitle" Header="Title" PlaceholderText="ex : Tunjungan Plaza"/>
+            <TextBox Grid.Row="1" x:Name="TextBoxDescription" TextWrapping="Wrap"  Height="300"  Header="Description" PlaceholderText="Describe your space in 200 words"/>
+            <GridView Grid.Row="2" x:Name="PhotoGridView"
+                          ItemsSource="{Binding Photos}"
+                          SelectedItem="{Binding SelectedPhoto,
+                                                 Mode=TwoWay}"
+                          SelectionMode="Single">
+                <common:ItemsControlHelper.EmptyListTemplate>
+                    <ControlTemplate>
+                        <Grid Width="150"
+                                  Height="150"
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Top">
+                            <interactivity:Interaction.Behaviors>
+                                <core:EventTriggerBehavior EventName="Tapped">
+                                    <core:InvokeCommandAction Command="{Binding AddPhotoCommand, Mode=OneWay}" />
+                                </core:EventTriggerBehavior>
+                            </interactivity:Interaction.Behaviors>
+
+                            <Rectangle Fill="Black" Opacity=".6" />
+                            <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontSize="50"
+                                           Text="+"
+                                           TextAlignment="Center"
+                                           TextLineBounds="Tight" />
+
+                        </Grid>
+                    </ControlTemplate>
+                </common:ItemsControlHelper.EmptyListTemplate>
+                <GridView.ItemTemplate>
+                    <DataTemplate>
+                        <Image Width="150"
+                                   Height="150"
+                                   Margin="10"
+                                   Source="{Binding ImageSource}"
+                                   Stretch="Uniform" />
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+    </Grid>
+</Page>

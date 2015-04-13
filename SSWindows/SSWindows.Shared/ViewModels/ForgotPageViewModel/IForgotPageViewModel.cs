@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Practices.Prism.Mvvm.Interfaces;
+using SSWindows.ViewModels;
 
 namespace SSWindows.Interfaces
 {
