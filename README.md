@@ -23,11 +23,11 @@ This project is made for [Start Surabaya][ss].
 
 # License
 
-This project is licensed using GNU GPL v2 unless otherwise noted. This license can be accessed in [here][gpl].
+This project is licensed using Apache unless otherwise noted. This license can be accessed in [here][apache].
 
 [ss]: http://startsurabaya.com
 [ssimg]: http://startsurabaya.com/img/general/logo-start-sby.png
-[gpl]: https://github.com/FlagMySpace/UniversalWindowsAppsClient/blob/master/LICENSE
+[apache]: https://github.com/FlagMySpace/UniversalWindowsAppsClient/blob/master/LICENSE
 [parse]:https://www.parse.com/
 [pwrt]:https://prismwindowsruntime.codeplex.com/
 [fms]:http://flagmy.space
